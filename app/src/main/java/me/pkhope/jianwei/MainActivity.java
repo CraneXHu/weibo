@@ -6,12 +6,16 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.widget.TextView;
 
 import com.ashokvarma.bottomnavigation.BottomNavigationBar;
 import com.ashokvarma.bottomnavigation.BottomNavigationItem;
 import com.sina.weibo.sdk.auth.AuthInfo;
 import com.sina.weibo.sdk.auth.Oauth2AccessToken;
 import com.sina.weibo.sdk.auth.sso.SsoHandler;
+import com.sina.weibo.sdk.exception.WeiboException;
+import com.sina.weibo.sdk.net.RequestListener;
+import com.sina.weibo.sdk.openapi.StatusesAPI;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,6 +23,10 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity implements BottomNavigationBar.OnTabSelectedListener{
 
     private SsoHandler ssoHandler;
+
+    private Oauth2AccessToken token;
+
+    private StatusesAPI sa;
 
     private Toolbar toolbar;
 
@@ -41,15 +49,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationB
 
         initBottomBar();
 
-
-        Oauth2AccessToken token = AccessTokenPreference.loadAccessToken(MainActivity.this);
-        if (token.getToken().equals("")){
-
-            AuthInfo authInfo = new AuthInfo(this, Constants.APP_KEY, Constants.REDIRECT_URL, Constants.SCOPE);
-            ssoHandler = new SsoHandler(MainActivity.this, authInfo);
-            ssoHandler.authorize(new AuthListener(MainActivity.this));
-
-        }
+        auth();
 
     }
 
@@ -104,6 +104,18 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationB
                 .addItem(new BottomNavigationItem(R.mipmap.ic_favorite_white_24dp, "Favorite"))
                 .initialise();
         bottomNavigationBar.setTabSelectedListener(this);
+    }
+
+    protected void auth(){
+
+        token = AccessTokenPreference.loadAccessToken(MainActivity.this);
+        if (token.getToken().equals("")){
+
+            AuthInfo authInfo = new AuthInfo(this, Constants.APP_KEY, Constants.REDIRECT_URL, Constants.SCOPE);
+            ssoHandler = new SsoHandler(MainActivity.this, authInfo);
+            ssoHandler.authorize(new AuthListener(MainActivity.this));
+
+        }
     }
 
     @Override
