@@ -6,15 +6,14 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-import android.widget.TextView;
+import android.view.MenuItem;
+import android.view.View;
 
 import com.ashokvarma.bottomnavigation.BottomNavigationBar;
 import com.ashokvarma.bottomnavigation.BottomNavigationItem;
 import com.sina.weibo.sdk.auth.AuthInfo;
 import com.sina.weibo.sdk.auth.Oauth2AccessToken;
 import com.sina.weibo.sdk.auth.sso.SsoHandler;
-import com.sina.weibo.sdk.exception.WeiboException;
-import com.sina.weibo.sdk.net.RequestListener;
 import com.sina.weibo.sdk.openapi.StatusesAPI;
 
 import java.util.ArrayList;
@@ -44,6 +43,13 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationB
         toolbar = (Toolbar)findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         toolbar.setTitle(getString(R.string.app_name));
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
 
         initViewPager();
 
@@ -62,9 +68,15 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationB
         }
     }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        return super.onOptionsItemSelected(item);
+    }
+
     protected void initViewPager(){
 
-        fragmentList.add(new WeiboFragment());
+        fragmentList.add(new TimelineFragment());
         fragmentList.add(new MessageFragment());
         fragmentList.add(new MeFragment());
 
@@ -73,6 +85,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationB
 //        viewPager.setCurrentItem(0);
 
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
 
@@ -80,7 +93,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationB
 
             @Override
             public void onPageSelected(int position) {
-
+                bottomNavigationBar.selectTab(position);
             }
 
             @Override
@@ -120,7 +133,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationB
 
     @Override
     public void onTabSelected(int position) {
-
+        viewPager.setCurrentItem(position);
     }
 
     @Override

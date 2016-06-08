@@ -5,6 +5,10 @@
     <color name="colorAccent">#FF4081</color>
 
     <color name="bottom_nav_bg">#424242</color>
-    <color name="bottom_item_active">#2b2b2b</color>
-    <color name="bottom_item_inactive">#FF4081</color>
+    <color name="bottom_item_active">#FF4081</color>
+    <color name="bottom_item_inactive">#2b2b2b</color>
+
+    <color name="refresh_progress_1">#e91e63</color>
+    <color name="refresh_progress_2">#00b0ff</color>
+    <color name="refresh_progress_3">#432e2a</color>
 </resources>
