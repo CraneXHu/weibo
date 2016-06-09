@@ -59,6 +59,7 @@ public class TimelineFragment extends Fragment {
         recyclerView.setAdapter(timelineAdapter);
         final LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(layoutManager);
+        recyclerView.addItemDecoration(new Divider(getActivity(),Divider.VERTICAL_LIST));
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
