@@ -18,6 +18,6 @@ public class MyStatusesAPI {
     }
 
     public void friendsTimeline(int page, int count, RequestListener listener){
-        statusesAPI.friendsTimeline(0, 0, 10, 1, false, 0, false,listener);
+        statusesAPI.friendsTimeline(0, 0, count, page, false, 0, false,listener);
     }
 }

@@ -9,12 +9,10 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import com.sina.weibo.sdk.auth.Oauth2AccessToken;
 import com.sina.weibo.sdk.exception.WeiboException;
 import com.sina.weibo.sdk.net.RequestListener;
-import com.sina.weibo.sdk.openapi.StatusesAPI;
 import com.sina.weibo.sdk.openapi.models.Status;
 import com.sina.weibo.sdk.openapi.models.StatusList;
 
@@ -59,7 +57,7 @@ public class TimelineFragment extends Fragment {
         recyclerView.setAdapter(timelineAdapter);
         final LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(layoutManager);
-        recyclerView.addItemDecoration(new Divider(getActivity(),Divider.VERTICAL_LIST));
+        recyclerView.addItemDecoration(new RecyclerViewDivider(getActivity(), RecyclerViewDivider.VERTICAL_LIST));
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
@@ -68,7 +66,7 @@ public class TimelineFragment extends Fragment {
                 boolean isBottom = lastVisibleItem >= timelineAdapter.getItemCount() - 4;
 
                 if (isBottom && dy > 0) {
-                    swipeRefreshLayout.setRefreshing(true);
+
                     loadPage(currentPage++);
                 }
             }
@@ -77,17 +75,24 @@ public class TimelineFragment extends Fragment {
         Oauth2AccessToken token = AccessTokenPreference.loadAccessToken(getContext());
         myStatusesAPI = new MyStatusesAPI(getActivity(),Constants.APP_KEY,token);
 
+        loadPage(currentPage++);
         return view;
     }
 
     protected void loadPage(int page){
 
+        if (!swipeRefreshLayout.isRefreshing()){
+            swipeRefreshLayout.setRefreshing(true);
+        }
         myStatusesAPI.friendsTimeline(page, 10, new RequestListener() {
 
             @Override
             public void onComplete(String s) {
 
                 StatusList data = StatusList.parse(s);
+                if (data.statusList == null){
+                    return;
+                }
                 statusList.addAll(data.statusList);
                 timelineAdapter.notifyDataSetChanged();
 
