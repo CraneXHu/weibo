@@ -13,35 +13,40 @@ import android.view.ViewGroup;
 import com.sina.weibo.sdk.auth.Oauth2AccessToken;
 import com.sina.weibo.sdk.exception.WeiboException;
 import com.sina.weibo.sdk.net.RequestListener;
-import com.sina.weibo.sdk.openapi.models.Status;
-import com.sina.weibo.sdk.openapi.models.StatusList;
+import com.sina.weibo.sdk.openapi.models.Comment;
+import com.sina.weibo.sdk.openapi.models.CommentList;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import me.pkhope.jianwei.api.MyStatusesAPI;
-
 /**
- * Created by pkhope on 2016/6/7.
+ * Created by pkhope on 2016/6/10.
  */
-public class TimelineFragment extends Fragment {
+public class AtFragment extends Fragment {
 
-    private MyStatusesAPI myStatusesAPI;
     private int currentPage = 1;
-    private List<Status> statusList = new ArrayList<>();
+    private List<Comment> commentList = new ArrayList<>();
 
-    private TimelineAdapter timelineAdapter;
+    private MyCommentsAPI api;
+
+    private RecyclerView recyclerView;
+    private CommentAdapter commentAdapter;
 
     private SwipeRefreshLayout swipeRefreshLayout;
-    private RecyclerView recyclerView;
-
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.fragment_timeline, container, false);
-        swipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipe_refresh_layout);
+        View view = inflater.inflate(R.layout.fragment_comment, container, false);
+        return view;
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+
+        swipeRefreshLayout = (SwipeRefreshLayout) getView().findViewById(R.id.swipe_refresh_layout);
         swipeRefreshLayout.setColorSchemeResources(R.color.refresh_progress_3,
                 R.color.refresh_progress_2, R.color.refresh_progress_1);
 
@@ -51,10 +56,9 @@ public class TimelineFragment extends Fragment {
                 loadPage(currentPage++);
             }
         });
-
-        recyclerView = (RecyclerView) view.findViewById(R.id.recycle_view);
-        timelineAdapter = new TimelineAdapter(getContext(),statusList);
-        recyclerView.setAdapter(timelineAdapter);
+        recyclerView = (RecyclerView)getView().findViewById(R.id.recycle_view);
+        commentAdapter = new CommentAdapter(getContext(),commentList);
+        recyclerView.setAdapter(commentAdapter);
         final LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.addItemDecoration(new RecyclerViewDivider(getActivity(), RecyclerViewDivider.VERTICAL_LIST));
@@ -63,7 +67,7 @@ public class TimelineFragment extends Fragment {
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
                 int lastVisibleItem = layoutManager.findLastVisibleItemPosition();
-                boolean isBottom = lastVisibleItem >= timelineAdapter.getItemCount() - 4;
+                boolean isBottom = lastVisibleItem >= commentAdapter.getItemCount() - 4;
 
                 if (isBottom && dy > 0) {
 
@@ -71,12 +75,9 @@ public class TimelineFragment extends Fragment {
                 }
             }
         });
-
         Oauth2AccessToken token = AccessTokenPreference.loadAccessToken(getContext());
-        myStatusesAPI = new MyStatusesAPI(getActivity(),Constants.APP_KEY,token);
-
+        api = new MyCommentsAPI(getContext(),Constants.APP_KEY,token);
         loadPage(currentPage++);
-        return view;
     }
 
     protected void loadPage(int page){
@@ -84,28 +85,28 @@ public class TimelineFragment extends Fragment {
         if (!swipeRefreshLayout.isRefreshing()){
             swipeRefreshLayout.setRefreshing(true);
         }
-        myStatusesAPI.friendsTimeline(page, 10, new RequestListener() {
 
+        api.mentions(page, 10, new RequestListener() {
             @Override
             public void onComplete(String s) {
 
-                StatusList data = StatusList.parse(s);
-                if (data.statusList == null){
+                CommentList data = CommentList.parse(s);
+                if (data.commentList == null){
                     return;
                 }
-                statusList.addAll(data.statusList);
-                timelineAdapter.notifyDataSetChanged();
+                commentList.addAll(data.commentList);
+                commentAdapter.notifyDataSetChanged();
 
                 if (swipeRefreshLayout.isRefreshing()){
                     swipeRefreshLayout.setRefreshing(false);
                 }
-
             }
 
             @Override
             public void onWeiboException(WeiboException e) {
-                 e.printStackTrace();
+                e.printStackTrace();
             }
         });
     }
 }
+

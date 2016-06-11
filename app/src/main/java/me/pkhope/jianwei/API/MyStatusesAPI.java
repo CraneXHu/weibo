@@ -1,4 +1,4 @@
-package me.pkhope.jianwei.API;
+package me.pkhope.jianwei.api;
 
 import android.content.Context;
 
