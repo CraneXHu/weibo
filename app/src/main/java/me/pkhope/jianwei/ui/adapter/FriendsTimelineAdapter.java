@@ -1,4 +1,4 @@
-package me.pkhope.jianwei;
+package me.pkhope.jianwei.ui.adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
@@ -14,16 +14,19 @@ import com.sina.weibo.sdk.openapi.models.Status;
 import java.util.ArrayList;
 import java.util.List;
 
+import me.pkhope.jianwei.R;
+import me.pkhope.jianwei.utils.TimeConverter;
+
 /**
  * Created by pkhope on 2016/6/8.
  */
-public class TimelineAdapter extends RecyclerView.Adapter<TimelineAdapter.TimelineViewHolder>{
+public class FriendsTimelineAdapter extends RecyclerView.Adapter<FriendsTimelineAdapter.TimelineViewHolder>{
 
     private List<Status> statusList = new ArrayList<>();
 
     private Context context;
 
-    public TimelineAdapter(Context context, List<Status> list){
+    public FriendsTimelineAdapter(Context context, List<Status> list){
         this.context = context;
         statusList = list;
     }
@@ -41,24 +44,24 @@ public class TimelineAdapter extends RecyclerView.Adapter<TimelineAdapter.Timeli
 
         holder.setIsRecyclable(false);
 
-        Status status = statusList.get(position);
-        holder.content.setText(status.text);
-        holder.nickname.setText(status.user.name);
-        holder.time.setText(TimeConverter.convert(status.created_at));
-
-        Glide.with(context)
-                .load(status.user.profile_image_url)
-                .centerCrop()
-                .into(holder.avatar);
-
-        if (status.pic_urls != null){
-
-            holder.image.setVisibility(View.VISIBLE);
-            Glide.with(context)
-                    .load(status.pic_urls.get(0))
-                    .centerCrop()
-                    .into(holder.image);
-        }
+//        Status status = statusList.get(position);
+//        holder.content.setText(status.text);
+//        holder.nickname.setText(status.user.name);
+//        holder.time.setText(TimeConverter.convert(status.created_at));
+//
+//        Glide.with(context)
+//                .load(status.user.profile_image_url)
+//                .centerCrop()
+//                .into(holder.avatar);
+//
+//        if (status.pic_urls != null){
+//
+//            holder.image.setVisibility(View.VISIBLE);
+//            Glide.with(context)
+//                    .load(status.pic_urls.get(0))
+//                    .centerCrop()
+//                    .into(holder.image);
+//        }
     }
 
     @Override

@@ -1,4 +1,4 @@
-package me.pkhope.jianwei;
+package me.pkhope.jianwei.ui.activity;
 
 import android.content.Intent;
 import android.support.v4.app.Fragment;
@@ -19,7 +19,19 @@ import com.sina.weibo.sdk.openapi.StatusesAPI;
 import java.util.ArrayList;
 import java.util.List;
 
+import me.pkhope.jianwei.AccessTokenPreference;
+import me.pkhope.jianwei.AuthListener;
+import me.pkhope.jianwei.Constants;
+import me.pkhope.jianwei.ui.adapter.MyFragmentPagerAdapter;
+import me.pkhope.jianwei.R;
+import me.pkhope.jianwei.api.WeiboAPI;
+import me.pkhope.jianwei.ui.fragment.MeFragment;
+import me.pkhope.jianwei.ui.fragment.MessageFragment;
+import me.pkhope.jianwei.ui.fragment.FriendsTimelineFragment;
+
 public class MainActivity extends AppCompatActivity implements BottomNavigationBar.OnTabSelectedListener{
+
+    public static WeiboAPI weiboAPI;
 
     private SsoHandler ssoHandler;
 
@@ -59,6 +71,10 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationB
 
     }
 
+    public static WeiboAPI getWeiboAPI(){
+        return weiboAPI;
+    }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -76,7 +92,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationB
 
     protected void initViewPager(){
 
-        fragmentList.add(new TimelineFragment());
+        fragmentList.add(new FriendsTimelineFragment());
         fragmentList.add(new MessageFragment());
         fragmentList.add(new MeFragment());
 
@@ -122,13 +138,15 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationB
     protected void auth(){
 
         token = AccessTokenPreference.loadAccessToken(MainActivity.this);
-        if (token.getToken().equals("")){
+//        if (token.getToken().equals("")){
 
             AuthInfo authInfo = new AuthInfo(this, Constants.APP_KEY, Constants.REDIRECT_URL, Constants.SCOPE);
             ssoHandler = new SsoHandler(MainActivity.this, authInfo);
             ssoHandler.authorize(new AuthListener(MainActivity.this));
 
-        }
+//        }
+
+        weiboAPI = new WeiboAPI(getBaseContext(),Constants.APP_KEY,token);
     }
 
     @Override

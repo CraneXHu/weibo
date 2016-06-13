@@ -8,6 +8,8 @@ import com.sina.weibo.sdk.auth.Oauth2AccessToken;
 import com.sina.weibo.sdk.auth.WeiboAuthListener;
 import com.sina.weibo.sdk.exception.WeiboException;
 
+import me.pkhope.jianwei.utils.ToastUtils;
+
 /**
  * Created by pkhope on 2016/6/3.
  */
@@ -15,7 +17,7 @@ public class AuthListener implements WeiboAuthListener {
 
     private Context context;
 
-    AuthListener(Context context){
+    public AuthListener(Context context){
         this.context = context;
         ToastUtils.register(context);
     }

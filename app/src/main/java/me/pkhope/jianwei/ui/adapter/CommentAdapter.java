@@ -1,4 +1,4 @@
-package me.pkhope.jianwei;
+package me.pkhope.jianwei.ui.adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
@@ -13,6 +13,9 @@ import com.sina.weibo.sdk.openapi.models.Comment;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import me.pkhope.jianwei.R;
+import me.pkhope.jianwei.utils.TimeConverter;
 
 /**
  * Created by pkhope on 2016/6/11.

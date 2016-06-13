@@ -17,7 +17,7 @@
  * along with Meizhi.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package me.pkhope.jianwei;
+package me.pkhope.jianwei.utils;
 
 import android.content.Context;
 import android.widget.Toast;
