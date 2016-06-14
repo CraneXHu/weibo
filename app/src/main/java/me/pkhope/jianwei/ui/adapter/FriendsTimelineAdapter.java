@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.sina.weibo.sdk.openapi.models.Status;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -44,24 +45,22 @@ public class FriendsTimelineAdapter extends RecyclerView.Adapter<FriendsTimeline
 
         holder.setIsRecyclable(false);
 
-//        Status status = statusList.get(position);
-//        holder.content.setText(status.text);
-//        holder.nickname.setText(status.user.name);
-//        holder.time.setText(TimeConverter.convert(status.created_at));
-//
-//        Glide.with(context)
-//                .load(status.user.profile_image_url)
-//                .centerCrop()
-//                .into(holder.avatar);
-//
-//        if (status.pic_urls != null){
-//
-//            holder.image.setVisibility(View.VISIBLE);
-//            Glide.with(context)
-//                    .load(status.pic_urls.get(0))
-//                    .centerCrop()
-//                    .into(holder.image);
-//        }
+        Status status = statusList.get(position);
+        holder.content.setText(status.text);
+        holder.nickname.setText(status.user.name);
+        holder.time.setText(TimeConverter.convert(status.created_at));
+
+        Picasso.with(context)
+                .load(status.user.profile_image_url)
+                .into(holder.avatar);
+
+        if (status.pic_urls != null){
+
+            holder.image.setVisibility(View.VISIBLE);
+            Picasso.with(context)
+                    .load(status.pic_urls.get(0))
+                    .into(holder.image);
+        }
     }
 
     @Override

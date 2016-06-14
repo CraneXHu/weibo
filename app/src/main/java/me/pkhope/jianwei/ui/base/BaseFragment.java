@@ -19,17 +19,11 @@ import me.pkhope.jianwei.ui.adapter.RecyclerViewDivider;
 /**
  * Created by pkhope on 2016/6/12.
  */
-public class BaseFragment extends Fragment implements RequestListener {
-
-    protected int currentCursor = 1;
+public class BaseFragment extends Fragment {
 
     private SwipeRefreshLayout swipeRefreshLayout;
     private RecyclerView recyclerView;
     protected RecyclerView.Adapter adapter;
-
-    public BaseFragment(){
-
-    }
 
     @Nullable
     @Override
@@ -51,7 +45,7 @@ public class BaseFragment extends Fragment implements RequestListener {
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                loadPage();
+                refreshData();
             }
         });
 
@@ -69,41 +63,35 @@ public class BaseFragment extends Fragment implements RequestListener {
 
                 if (isBottom && dy > 0) {
 
-                    loadPage();
+                    loadMore();
                 }
             }
         });
 
-        loadPage();
+        refreshData();
     }
 
 
 
     protected void setRefreshing(boolean bRefresh){
 
-        if (bRefresh == true){
-            if (!swipeRefreshLayout.isRefreshing()){
-                swipeRefreshLayout.setRefreshing(true);
-            }
-        }else{
-            if (swipeRefreshLayout.isRefreshing()){
-                swipeRefreshLayout.setRefreshing(false);
-            }
-        }
+//        if (bRefresh == true){
+//            if (!swipeRefreshLayout.isRefreshing()){
+//                swipeRefreshLayout.setRefreshing(true);
+//            }
+//        }else{
+//            if (swipeRefreshLayout.isRefreshing()){
+//                swipeRefreshLayout.setRefreshing(false);
+//            }
+//        }
 
     }
 
-    protected void loadPage(){
+    protected void refreshData(){
+
+    }
+
+    protected void loadMore(){
 //        setRefreshing(true);
-    }
-
-    @Override
-    public void onComplete(String s) {
-
-    }
-
-    @Override
-    public void onWeiboException(WeiboException e) {
-        e.printStackTrace();
     }
 }

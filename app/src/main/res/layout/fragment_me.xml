@@ -4,24 +4,37 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <ImageView
-        android:id="@+id/avatar"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center" />
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
-    <TextView
-        android:id="@+id/nickname"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center" />
+        <ImageView
+            android:id="@+id/avatar"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:src="@mipmap/ic_launcher"/>
 
-    <TextView
-        android:id="@+id/intro"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:text="content"/>
+        <TextView
+            android:id="@+id/nickname"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="pkhope404"
+            android:layout_toRightOf="@id/avatar"/>
+
+        <ImageView
+            android:id="@+id/gender"
+            android:layout_width="12dp"
+            android:layout_height="12dp"
+            android:layout_toRightOf="@id/nickname"/>
+
+        <TextView
+            android:id="@+id/intro"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="程序猿"
+            android:layout_toRightOf="@id/avatar"
+            android:layout_below="@id/nickname"/>
+    </RelativeLayout>
 
     <android.support.design.widget.TabLayout
         android:id="@+id/tab"

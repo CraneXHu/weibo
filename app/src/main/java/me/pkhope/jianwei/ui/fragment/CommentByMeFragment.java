@@ -2,15 +2,10 @@ package me.pkhope.jianwei.ui.fragment;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
-import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.sina.weibo.sdk.auth.Oauth2AccessToken;
 import com.sina.weibo.sdk.exception.WeiboException;
 import com.sina.weibo.sdk.net.RequestListener;
 import com.sina.weibo.sdk.openapi.models.Comment;
@@ -19,13 +14,9 @@ import com.sina.weibo.sdk.openapi.models.CommentList;
 import java.util.ArrayList;
 import java.util.List;
 
-import me.pkhope.jianwei.AccessTokenPreference;
 import me.pkhope.jianwei.ui.activity.MainActivity;
 import me.pkhope.jianwei.ui.adapter.CommentAdapter;
 import me.pkhope.jianwei.Constants;
-import me.pkhope.jianwei.R;
-import me.pkhope.jianwei.ui.adapter.RecyclerViewDivider;
-import me.pkhope.jianwei.api.MyCommentsAPI;
 import me.pkhope.jianwei.ui.base.BaseFragment;
 
 /**
@@ -33,6 +24,7 @@ import me.pkhope.jianwei.ui.base.BaseFragment;
  */
 public class CommentByMeFragment extends BaseFragment {
 
+    private int currentPage = 2;
     private List<Comment> commentList = new ArrayList<>();
 
     @Nullable
@@ -44,23 +36,54 @@ public class CommentByMeFragment extends BaseFragment {
     }
 
     @Override
-    protected void loadPage() {
+    protected void loadMore() {
         setRefreshing(true);
 
-        MainActivity.getWeiboAPI().byME(currentCursor,10,this);
+        MainActivity.getWeiboAPI().byME(currentPage++, Constants.PAGE_COUNT, new RequestListener() {
+            @Override
+            public void onComplete(String s) {
+                CommentList data = CommentList.parse(s);
+                if (data.commentList == null){
+                    return;
+                }
+                commentList.addAll(data.commentList);
+                adapter.notifyDataSetChanged();
+
+                setRefreshing(false);
+            }
+
+            @Override
+            public void onWeiboException(WeiboException e) {
+                e.printStackTrace();
+            }
+        });
     }
 
-    @Override
-    public void onComplete(String s) {
-        CommentList data = CommentList.parse(s);
-        if (data.commentList == null){
-            return;
-        }
-        commentList.addAll(data.commentList);
-        adapter.notifyDataSetChanged();
-        currentCursor = Integer.parseInt(data.next_cursor);
 
-        setRefreshing(false);
+    @Override
+    protected void refreshData() {
+
+        MainActivity.getWeiboAPI().byME(1, Constants.PAGE_COUNT, new RequestListener() {
+            @Override
+            public void onComplete(String s) {
+
+                commentList.clear();
+                currentPage = 2;
+                CommentList data = CommentList.parse(s);
+                if (data.commentList == null){
+                    return;
+                }
+                commentList.addAll(data.commentList);
+                adapter.notifyDataSetChanged();
+
+                setRefreshing(false);
+            }
+
+            @Override
+            public void onWeiboException(WeiboException e) {
+                e.printStackTrace();
+            }
+        });
     }
 }
 

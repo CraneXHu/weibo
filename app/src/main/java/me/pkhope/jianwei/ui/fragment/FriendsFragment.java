@@ -6,6 +6,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.sina.weibo.sdk.exception.WeiboException;
+import com.sina.weibo.sdk.net.RequestListener;
 import com.sina.weibo.sdk.openapi.models.Status;
 import com.sina.weibo.sdk.openapi.models.StatusList;
 import com.sina.weibo.sdk.openapi.models.User;
@@ -13,6 +15,7 @@ import com.sina.weibo.sdk.openapi.models.User;
 import java.util.ArrayList;
 import java.util.List;
 
+import me.pkhope.jianwei.Constants;
 import me.pkhope.jianwei.models.UserList;
 import me.pkhope.jianwei.ui.activity.MainActivity;
 import me.pkhope.jianwei.ui.adapter.UserAdapter;
@@ -23,7 +26,8 @@ import me.pkhope.jianwei.ui.base.BaseFragment;
  */
 public class FriendsFragment extends BaseFragment {
 
-    private List<User> userList;
+    protected int currentCursor = 0;
+    protected List<User> userList;
 
     public FriendsFragment(){
         userList = new ArrayList<>();
@@ -38,22 +42,53 @@ public class FriendsFragment extends BaseFragment {
     }
 
     @Override
-    protected void loadPage() {
+    protected void loadMore() {
 //        super.loadPage(page);
         setRefreshing(true);
-        MainActivity.getWeiboAPI().friends(MainActivity.getWeiboAPI().getUid(),currentCursor,10,this);
+        MainActivity.getWeiboAPI().friends(MainActivity.getWeiboAPI().getUid(), currentCursor, Constants.PAGE_COUNT, new RequestListener() {
+            @Override
+            public void onComplete(String s) {
+
+                UserList data = UserList.parse(s);
+                if (data.userList == null){
+                    return;
+                }
+                userList.addAll(data.userList);
+                adapter.notifyDataSetChanged();
+                currentCursor = Integer.parseInt(data.next_cursor);
+
+                setRefreshing(false);
+            }
+
+            @Override
+            public void onWeiboException(WeiboException e) {
+                e.printStackTrace();
+            }
+        });
     }
 
     @Override
-    public void onComplete(String s) {
+    protected void refreshData() {
+        MainActivity.getWeiboAPI().friends(MainActivity.getWeiboAPI().getUid(), 0, Constants.PAGE_COUNT, new RequestListener() {
+            @Override
+            public void onComplete(String s) {
 
-        UserList data = UserList.parse(s);
-        if (data.userList == null){
-            return;
-        }
-        userList.addAll(data.userList);
-        adapter.notifyDataSetChanged();
-        currentCursor = Integer.parseInt(data.next_cursor);
-        setRefreshing(false);
+                userList.clear();
+                UserList data = UserList.parse(s);
+                if (data.userList == null){
+                    return;
+                }
+                userList.addAll(data.userList);
+                adapter.notifyDataSetChanged();
+                currentCursor = Integer.parseInt(data.next_cursor);
+
+                setRefreshing(false);
+            }
+
+            @Override
+            public void onWeiboException(WeiboException e) {
+                e.printStackTrace();
+            }
+        });
     }
 }

@@ -33,11 +33,9 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationB
 
     public static WeiboAPI weiboAPI;
 
-    private SsoHandler ssoHandler;
+    private SsoHandler ssoHandler = null;
 
     private Oauth2AccessToken token;
-
-    private StatusesAPI sa;
 
     private Toolbar toolbar;
 
@@ -79,9 +77,9 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationB
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if(ssoHandler != null){
-            ssoHandler.authorizeCallBack(requestCode, resultCode, data);
-        }
+//        if(ssoHandler != null){
+//            ssoHandler.authorizeCallBack(requestCode, resultCode, data);
+//        }
     }
 
     @Override
@@ -139,11 +137,11 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationB
 
         token = AccessTokenPreference.loadAccessToken(MainActivity.this);
 //        if (token.getToken().equals("")){
-
-            AuthInfo authInfo = new AuthInfo(this, Constants.APP_KEY, Constants.REDIRECT_URL, Constants.SCOPE);
-            ssoHandler = new SsoHandler(MainActivity.this, authInfo);
-            ssoHandler.authorize(new AuthListener(MainActivity.this));
-
+//
+//            AuthInfo authInfo = new AuthInfo(this, Constants.APP_KEY, Constants.REDIRECT_URL, Constants.SCOPE);
+//            ssoHandler = new SsoHandler(MainActivity.this, authInfo);
+//            ssoHandler.authorize(new AuthListener(MainActivity.this));
+//
 //        }
 
         weiboAPI = new WeiboAPI(getBaseContext(),Constants.APP_KEY,token);

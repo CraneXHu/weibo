@@ -6,12 +6,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.sina.weibo.sdk.exception.WeiboException;
+import com.sina.weibo.sdk.net.RequestListener;
 import com.sina.weibo.sdk.openapi.models.Comment;
 import com.sina.weibo.sdk.openapi.models.CommentList;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import me.pkhope.jianwei.Constants;
 import me.pkhope.jianwei.ui.activity.MainActivity;
 import me.pkhope.jianwei.ui.adapter.CommentAdapter;
 import me.pkhope.jianwei.ui.base.BaseFragment;
@@ -21,8 +24,8 @@ import me.pkhope.jianwei.ui.base.BaseFragment;
  */
 public class CommentToMeFragment extends BaseFragment {
 
+    private int currentPage = 1;
     private List<Comment> commentList = new ArrayList<>();
-
 
     @Nullable
     @Override
@@ -33,24 +36,53 @@ public class CommentToMeFragment extends BaseFragment {
     }
 
     @Override
-    protected void loadPage() {
+    protected void loadMore() {
         setRefreshing(true);
 
-        MainActivity.getWeiboAPI().toME(currentCursor,10,this);
+        MainActivity.getWeiboAPI().toME(currentPage++, Constants.PAGE_COUNT, new RequestListener() {
+            @Override
+            public void onComplete(String s) {
+                CommentList data = CommentList.parse(s);
+                if (data.commentList == null){
+                    return;
+                }
+                commentList.addAll(data.commentList);
+                adapter.notifyDataSetChanged();
+
+                setRefreshing(false);
+            }
+
+            @Override
+            public void onWeiboException(WeiboException e) {
+                e.printStackTrace();
+            }
+        });
     }
 
+
     @Override
-    public void onComplete(String s) {
-        super.onComplete(s);
+    protected void refreshData() {
 
-        CommentList data = CommentList.parse(s);
-        if (data.commentList == null){
-            return;
-        }
-        commentList.addAll(data.commentList);
-        adapter.notifyDataSetChanged();
-        currentCursor = Integer.parseInt(data.next_cursor);
+        MainActivity.getWeiboAPI().toME(1, Constants.PAGE_COUNT, new RequestListener() {
+            @Override
+            public void onComplete(String s) {
 
-        setRefreshing(false);
+                commentList.clear();
+                currentPage = 2;
+                CommentList data = CommentList.parse(s);
+                if (data.commentList == null){
+                    return;
+                }
+                commentList.addAll(data.commentList);
+                adapter.notifyDataSetChanged();
+
+                setRefreshing(false);
+            }
+
+            @Override
+            public void onWeiboException(WeiboException e) {
+                e.printStackTrace();
+            }
+        });
     }
 }

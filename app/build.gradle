@@ -27,4 +27,5 @@ dependencies {
     compile project(':WeiboSdk')
     compile 'com.ashokvarma.android:bottom-navigation-bar:1.2.2'
     compile 'com.github.bumptech.glide:glide:3.6.1'
+    compile 'com.squareup.picasso:picasso:2.5.1'
 }

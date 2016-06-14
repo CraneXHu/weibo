@@ -76,4 +76,8 @@ public class WeiboAPI {
     public void show(String name, RequestListener listener){
         usersAPI.show(name,listener);
     }
+
+    public void show(long id, RequestListener listener){
+        usersAPI.show(id,listener);
+    }
 }

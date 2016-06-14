@@ -6,12 +6,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.sina.weibo.sdk.exception.WeiboException;
+import com.sina.weibo.sdk.net.RequestListener;
 import com.sina.weibo.sdk.openapi.models.Status;
 import com.sina.weibo.sdk.openapi.models.StatusList;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import me.pkhope.jianwei.Constants;
 import me.pkhope.jianwei.ui.activity.MainActivity;
 import me.pkhope.jianwei.ui.adapter.FriendsTimelineAdapter;
 import me.pkhope.jianwei.ui.base.BaseFragment;
@@ -21,6 +24,7 @@ import me.pkhope.jianwei.ui.base.BaseFragment;
  */
 public class UserTimelineFragment extends BaseFragment {
 
+    private int currentPage = 2;
     private List<Status> statusList;
 
     public UserTimelineFragment(){
@@ -36,23 +40,53 @@ public class UserTimelineFragment extends BaseFragment {
     }
 
     @Override
-    protected void loadPage() {
-//        super.loadPage(page);
+    protected void loadMore() {
+
         setRefreshing(true);
-        MainActivity.getWeiboAPI().userTimeline(currentCursor,10,this);
+        MainActivity.getWeiboAPI().userTimeline(currentPage++, Constants.PAGE_COUNT, new RequestListener() {
+            @Override
+            public void onComplete(String s) {
+                StatusList data = StatusList.parse(s);
+                if (data.statusList == null){
+                    return;
+                }
+                statusList.addAll(data.statusList);
+                adapter.notifyDataSetChanged();
+
+                setRefreshing(false);
+            }
+
+            @Override
+            public void onWeiboException(WeiboException e) {
+                e.printStackTrace();
+            }
+        });
     }
 
     @Override
-    public void onComplete(String s) {
+    protected void refreshData() {
 
-        StatusList data = StatusList.parse(s);
-        if (data.statusList == null){
-            return;
-        }
-        statusList.addAll(data.statusList);
-        adapter.notifyDataSetChanged();
-        currentCursor = Integer.parseInt(data.next_cursor);
+        setRefreshing(true);
+        MainActivity.getWeiboAPI().userTimeline(1, Constants.PAGE_COUNT, new RequestListener() {
+            @Override
+            public void onComplete(String s) {
 
-        setRefreshing(false);
+                statusList.clear();
+                currentPage = 2;
+                StatusList data = StatusList.parse(s);
+                if (data.statusList == null){
+                    return;
+                }
+                statusList.addAll(data.statusList);
+                adapter.notifyDataSetChanged();
+
+                setRefreshing(false);
+            }
+
+            @Override
+            public void onWeiboException(WeiboException e) {
+                e.printStackTrace();
+            }
+        });
     }
 }

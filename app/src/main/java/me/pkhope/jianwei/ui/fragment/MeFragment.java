@@ -2,16 +2,24 @@ package me.pkhope.jianwei.ui.fragment;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
+
+import com.sina.weibo.sdk.exception.WeiboException;
+import com.sina.weibo.sdk.net.RequestListener;
+import com.sina.weibo.sdk.openapi.models.User;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import me.pkhope.jianwei.R;
+import me.pkhope.jianwei.ui.activity.MainActivity;
 import me.pkhope.jianwei.ui.adapter.MyFragmentPagerAdapter;
 
 /**
@@ -20,6 +28,13 @@ import me.pkhope.jianwei.ui.adapter.MyFragmentPagerAdapter;
 public class MeFragment extends Fragment {
 
     private List<Fragment> fragmentList = new ArrayList<>();
+
+    private ImageView avatar;
+    private ImageView gender;
+    private TextView nickname;
+    private TextView intro;
+
+    MyFragmentPagerAdapter adapter;
 
     @Nullable
     @Override
@@ -36,7 +51,30 @@ public class MeFragment extends Fragment {
         fragmentList.add(new UserTimelineFragment());
         fragmentList.add(new FollowersFragment());
         fragmentList.add(new FriendsFragment());
-        MyFragmentPagerAdapter adapter = new MyFragmentPagerAdapter(getChildFragmentManager(),fragmentList);
+        adapter = new MyFragmentPagerAdapter(getChildFragmentManager(),fragmentList);
         viewPager.setAdapter(adapter);
+
+        TabLayout tab = (TabLayout) getView().findViewById(R.id.tab);
+
+        avatar = (ImageView) getView().findViewById(R.id.avatar);
+        nickname = (TextView) getView().findViewById(R.id.nickname);
+        gender = (ImageView) getView().findViewById(R.id.gender);
+        intro = (TextView) getView().findViewById(R.id.intro);
+
+        MainActivity.getWeiboAPI().show(MainActivity.getWeiboAPI().getUid(), new RequestListener() {
+            @Override
+            public void onComplete(String s) {
+
+                User user = User.parse(s);
+
+                nickname.setText(user.name);
+                intro.setText(user.description);
+            }
+
+            @Override
+            public void onWeiboException(WeiboException e) {
+                e.printStackTrace();
+            }
+        });
     }
 }
