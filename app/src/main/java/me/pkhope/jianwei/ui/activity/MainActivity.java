@@ -126,9 +126,9 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationB
                 .setBarBackgroundColor(R.color.bottom_nav_bg);
 
         bottomNavigationBar
-                .addItem(new BottomNavigationItem(R.mipmap.ic_home_white_24dp, "Home"))
-                .addItem(new BottomNavigationItem(R.mipmap.ic_book_white_24dp, "Books"))
-                .addItem(new BottomNavigationItem(R.mipmap.ic_favorite_white_24dp, "Favorite"))
+                .addItem(new BottomNavigationItem(R.mipmap.ic_home_white_24dp, "主页"))
+                .addItem(new BottomNavigationItem(R.mipmap.ic_message_white_24dp, "消息"))
+                .addItem(new BottomNavigationItem(R.mipmap.ic_account_box_white_48dp, "我"))
                 .initialise();
         bottomNavigationBar.setTabSelectedListener(this);
     }

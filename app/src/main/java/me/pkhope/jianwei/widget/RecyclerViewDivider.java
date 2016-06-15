@@ -1,4 +1,4 @@
-package me.pkhope.jianwei.ui.adapter;
+package me.pkhope.jianwei.widget;
 
 /**
  * Copyright (C) 2014 The Android Open Source Project

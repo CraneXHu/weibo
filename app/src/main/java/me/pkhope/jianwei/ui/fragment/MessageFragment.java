@@ -36,9 +36,9 @@ public class MessageFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        titleList.add("Comment");
-        titleList.add("@me");
-        titleList.add("Send");
+        titleList.add("收到的");
+        titleList.add("@我的");
+        titleList.add("发出的");
 
         ViewPager viewPager = (ViewPager)getView().findViewById(R.id.msg_viewpager);
         fragmentList.add(new CommentToMeFragment());

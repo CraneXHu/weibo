@@ -2,21 +2,26 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="horizontal" android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginLeft="16dp"
-    android:layout_marginRight="16dp"
-    android:layout_marginTop="16dp"
-    android:layout_marginBottom="16dp">
+    android:clickable="true"
+    android:background="@drawable/item_bg">
 
-    <ImageView
+    <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/avatar"
         android:layout_width="48dp"
         android:layout_height="48dp"
-        android:src="@mipmap/ic_launcher"/>
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        android:scaleType="centerCrop"
+        android:src="@mipmap/ic_launcher" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
         android:orientation="vertical">
 
         <RelativeLayout
@@ -29,6 +34,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
                 android:textStyle="bold"
+                android:textColor="@color/black"
                 android:textSize="16sp"
                 android:text="nickname"/>
 
@@ -45,14 +51,22 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
             android:orientation="vertical">
 
             <TextView
                 android:id="@+id/content"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:textColor="@color/content_text_color"
                 android:textSize="16sp" />
 
+            <ImageView
+                android:id="@+id/image"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:scaleType="centerCrop"
+                android:visibility="gone" />
         </LinearLayout>
 
     </LinearLayout>

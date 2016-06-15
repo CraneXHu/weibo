@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.sina.weibo.sdk.exception.WeiboException;
 import com.sina.weibo.sdk.net.RequestListener;
 import com.sina.weibo.sdk.openapi.models.User;
@@ -28,6 +29,7 @@ import me.pkhope.jianwei.ui.adapter.MyFragmentPagerAdapter;
 public class MeFragment extends Fragment {
 
     private List<Fragment> fragmentList = new ArrayList<>();
+    private List<String> titleList = new ArrayList<>();
 
     private ImageView avatar;
     private ImageView gender;
@@ -47,14 +49,15 @@ public class MeFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        ViewPager viewPager = (ViewPager)getView().findViewById(R.id.view_pager);
+        final ViewPager viewPager = (ViewPager)getView().findViewById(R.id.view_pager);
         fragmentList.add(new UserTimelineFragment());
         fragmentList.add(new FollowersFragment());
         fragmentList.add(new FriendsFragment());
         adapter = new MyFragmentPagerAdapter(getChildFragmentManager(),fragmentList);
         viewPager.setAdapter(adapter);
 
-        TabLayout tab = (TabLayout) getView().findViewById(R.id.tab);
+        final TabLayout tab = (TabLayout) getView().findViewById(R.id.tab);
+        tab.setTabMode(TabLayout.MODE_FIXED);
 
         avatar = (ImageView) getView().findViewById(R.id.avatar);
         nickname = (TextView) getView().findViewById(R.id.nickname);
@@ -67,8 +70,24 @@ public class MeFragment extends Fragment {
 
                 User user = User.parse(s);
 
+                titleList.add(String.format("%d\n 微博",user.statuses_count));
+                titleList.add(String.format("%d\n 粉丝",user.followers_count));
+                titleList.add(String.format("%d\n 关注",user.friends_count));
+                adapter.setTitleList(titleList);
+                tab.setupWithViewPager(viewPager);
+
                 nickname.setText(user.name);
                 intro.setText(user.description);
+
+                Glide.with(getContext())
+                        .load(user.profile_image_url)
+                        .centerCrop()
+                        .dontAnimate()
+                        .thumbnail(0.5f)
+//                .override(holder.avatar.getMeasuredWidth(), holder.avatar.getMeasuredHeight())
+                        .placeholder(R.mipmap.ic_launcher)
+                        .into(avatar);
+
             }
 
             @Override

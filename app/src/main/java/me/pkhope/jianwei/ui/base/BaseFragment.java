@@ -10,11 +10,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.sina.weibo.sdk.exception.WeiboException;
-import com.sina.weibo.sdk.net.RequestListener;
-
 import me.pkhope.jianwei.R;
-import me.pkhope.jianwei.ui.adapter.RecyclerViewDivider;
+import me.pkhope.jianwei.widget.DividerItemDecoration;
+import me.pkhope.jianwei.widget.RecyclerViewDivider;
 
 /**
  * Created by pkhope on 2016/6/12.
@@ -53,7 +51,7 @@ public class BaseFragment extends Fragment {
         recyclerView.setAdapter(adapter);
         final LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(layoutManager);
-        recyclerView.addItemDecoration(new RecyclerViewDivider(getActivity(), RecyclerViewDivider.VERTICAL_LIST));
+        recyclerView.addItemDecoration(new DividerItemDecoration(getActivity(), RecyclerViewDivider.VERTICAL_LIST));
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {

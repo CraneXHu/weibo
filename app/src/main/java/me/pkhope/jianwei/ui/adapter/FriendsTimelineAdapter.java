@@ -50,15 +50,25 @@ public class FriendsTimelineAdapter extends RecyclerView.Adapter<FriendsTimeline
         holder.nickname.setText(status.user.name);
         holder.time.setText(TimeConverter.convert(status.created_at));
 
-        Picasso.with(context)
+        Glide.with(context)
                 .load(status.user.profile_image_url)
+                .centerCrop()
+                .dontAnimate()
+                .thumbnail(0.5f)
+//                .override(holder.avatar.getMeasuredWidth(), holder.avatar.getMeasuredHeight())
+                .placeholder(R.mipmap.ic_launcher)
                 .into(holder.avatar);
 
         if (status.pic_urls != null){
 
             holder.image.setVisibility(View.VISIBLE);
-            Picasso.with(context)
+            Glide.with(context)
                     .load(status.pic_urls.get(0))
+                    .centerCrop()
+                    .dontAnimate()
+                    .thumbnail(0.5f)
+//                    .override(holder.image.getMeasuredWidth(), holder.image.getMeasuredHeight())
+                    .placeholder(R.mipmap.ic_launcher)
                     .into(holder.image);
         }
     }
