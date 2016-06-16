@@ -73,15 +73,15 @@ public class BaseFragment extends Fragment {
 
     protected void setRefreshing(boolean bRefresh){
 
-//        if (bRefresh == true){
-//            if (!swipeRefreshLayout.isRefreshing()){
-//                swipeRefreshLayout.setRefreshing(true);
-//            }
-//        }else{
-//            if (swipeRefreshLayout.isRefreshing()){
-//                swipeRefreshLayout.setRefreshing(false);
-//            }
-//        }
+        if (bRefresh == true){
+            if (!swipeRefreshLayout.isRefreshing()){
+                swipeRefreshLayout.setRefreshing(true);
+            }
+        }else{
+            if (swipeRefreshLayout.isRefreshing()){
+                swipeRefreshLayout.setRefreshing(false);
+            }
+        }
 
     }
 

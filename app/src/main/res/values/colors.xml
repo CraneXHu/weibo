@@ -2,7 +2,7 @@
 <resources>
     <color name="colorPrimary">#424242</color>
     <color name="colorPrimaryDark">#2b2b2b</color>
-    <color name="colorAccent">#FF4081</color>
+    <color name="colorAccent">#424242</color>
 
     <color name="bottom_nav_bg">@color/white</color>
     <color name="bottom_item_active">@color/blue</color>

@@ -37,11 +37,14 @@ public class CommentToMeFragment extends BaseFragment {
 
     @Override
     protected void loadMore() {
+
         setRefreshing(true);
 
         MainActivity.getWeiboAPI().toME(currentPage++, Constants.PAGE_COUNT, new RequestListener() {
+
             @Override
             public void onComplete(String s) {
+
                 CommentList data = CommentList.parse(s);
                 if (data.commentList == null){
                     return;

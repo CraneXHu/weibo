@@ -1,8 +1,13 @@
 package me.pkhope.jianwei.ui.adapter;
 
 import android.content.Context;
+import android.content.Intent;
+import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
+import android.view.ContextMenu;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -10,18 +15,23 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.sina.weibo.sdk.openapi.models.Status;
-import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import me.pkhope.jianwei.R;
+import me.pkhope.jianwei.ui.activity.ReplyActivity;
 import me.pkhope.jianwei.utils.TimeConverter;
+import me.pkhope.jianwei.utils.ToastUtils;
+import me.pkhope.jianwei.widget.emojitextview.EmojiTextView;
 
 /**
  * Created by pkhope on 2016/6/8.
  */
-public class FriendsTimelineAdapter extends RecyclerView.Adapter<FriendsTimelineAdapter.TimelineViewHolder>{
+public class FriendsTimelineAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
+
+    private static final int TYPE_TEXT_ITEM = 0;
+    private static final int TYPE_IMAGE_ITEM = 1;
 
     private List<Status> statusList = new ArrayList<>();
 
@@ -34,21 +44,28 @@ public class FriendsTimelineAdapter extends RecyclerView.Adapter<FriendsTimeline
 
 
     @Override
-    public TimelineViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.timeline_item,parent,false);
-        return new TimelineViewHolder(view);
+    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        if (viewType == TYPE_TEXT_ITEM){
+            View view = LayoutInflater.from(parent.getContext())
+                    .inflate(R.layout.weibo_text_item,parent,false);
+            return new TextViewHolder(view);
+
+        } else {
+            View view = LayoutInflater.from(parent.getContext())
+                    .inflate(R.layout.weibo_image_item,parent,false);
+            return new ImageViewHolder(view);
+        }
+
     }
 
     @Override
-    public void onBindViewHolder(TimelineViewHolder holder, int position) {
-
-        holder.setIsRecyclable(false);
+    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
 
         Status status = statusList.get(position);
-        holder.content.setText(status.text);
-        holder.nickname.setText(status.user.name);
-        holder.time.setText(TimeConverter.convert(status.created_at));
+        ((TextViewHolder)holder).weiboId = status.id;
+        ((TextViewHolder)holder).content.setText(status.text);
+        ((TextViewHolder)holder).nickname.setText(status.user.name);
+        ((TextViewHolder)holder).time.setText(TimeConverter.convert(status.created_at));
 
         Glide.with(context)
                 .load(status.user.profile_image_url)
@@ -57,11 +74,10 @@ public class FriendsTimelineAdapter extends RecyclerView.Adapter<FriendsTimeline
                 .thumbnail(0.5f)
 //                .override(holder.avatar.getMeasuredWidth(), holder.avatar.getMeasuredHeight())
                 .placeholder(R.mipmap.ic_launcher)
-                .into(holder.avatar);
+                .into(((TextViewHolder)holder).avatar);
 
-        if (status.pic_urls != null){
+        if (holder instanceof ImageViewHolder){
 
-            holder.image.setVisibility(View.VISIBLE);
             Glide.with(context)
                     .load(status.pic_urls.get(0))
                     .centerCrop()
@@ -69,7 +85,7 @@ public class FriendsTimelineAdapter extends RecyclerView.Adapter<FriendsTimeline
                     .thumbnail(0.5f)
 //                    .override(holder.image.getMeasuredWidth(), holder.image.getMeasuredHeight())
                     .placeholder(R.mipmap.ic_launcher)
-                    .into(holder.image);
+                    .into(((ImageViewHolder)holder).image);
         }
     }
 
@@ -78,21 +94,68 @@ public class FriendsTimelineAdapter extends RecyclerView.Adapter<FriendsTimeline
         return statusList.size();
     }
 
-    public class TimelineViewHolder extends RecyclerView.ViewHolder{
+    @Override
+    public int getItemViewType(int position) {
+
+        if (statusList.get(position).pic_urls == null){
+            return TYPE_TEXT_ITEM;
+        }else {
+            return TYPE_IMAGE_ITEM;
+        }
+    }
+
+
+
+    public class TextViewHolder extends RecyclerView.ViewHolder implements View.OnCreateContextMenuListener,MenuItem.OnMenuItemClickListener{
+
+        public String weiboId;
 
         ImageView avatar;
         TextView nickname;
         TextView time;
-        TextView content;
-        ImageView image;
+        EmojiTextView content;
+        View rootView;
 
-        public TimelineViewHolder(View itemView) {
+        public TextViewHolder(View itemView) {
             super(itemView);
-
+            rootView = itemView;
             avatar = (ImageView) itemView.findViewById(R.id.avatar);
             nickname = (TextView) itemView.findViewById(R.id.nickname);
             time = (TextView) itemView.findViewById(R.id.time);
-            content = (TextView) itemView.findViewById(R.id.content);
+            content = (EmojiTextView) itemView.findViewById(R.id.content);
+
+            itemView.setOnCreateContextMenuListener(this);
+        }
+
+        @Override
+        public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+            MenuItem transmit = menu.add("转发");
+            transmit.setOnMenuItemClickListener(this);
+            MenuItem comment = menu.add("评论");
+            comment.setOnMenuItemClickListener(this);
+        }
+
+        @Override
+        public boolean onMenuItemClick(MenuItem item) {
+            Intent intent = new Intent(rootView.getContext(), ReplyActivity.class);
+            if (item.getTitle().equals("转发")){
+                intent.putExtra("operation","repost");
+            } else if (item.getTitle().equals("评论")){
+                intent.putExtra("operation","comment");
+            }
+            intent.putExtra("id",weiboId);
+            rootView.getContext().startActivity(intent);
+            return true;
+        }
+    }
+
+    public class ImageViewHolder extends TextViewHolder {
+
+        ImageView image;
+
+        public ImageViewHolder(View itemView){
+            super(itemView);
+
             image = (ImageView) itemView.findViewById(R.id.image);
         }
     }

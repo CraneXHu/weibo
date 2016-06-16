@@ -26,7 +26,7 @@ import me.pkhope.jianwei.ui.base.BaseFragment;
  */
 public class FriendsFragment extends BaseFragment {
 
-    protected int currentCursor = 0;
+    protected int currentCursor = 1;
     protected List<User> userList;
 
     public FriendsFragment(){
@@ -74,6 +74,7 @@ public class FriendsFragment extends BaseFragment {
             public void onComplete(String s) {
 
                 userList.clear();
+//                currentCursor = 1;
                 UserList data = UserList.parse(s);
                 if (data.userList == null){
                     return;

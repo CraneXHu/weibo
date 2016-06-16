@@ -16,7 +16,7 @@ public class FollowersFragment extends FriendsFragment {
     protected void loadMore() {
 //        super.loadPage(page);
         setRefreshing(true);
-        MainActivity.getWeiboAPI().follower(MainActivity.getWeiboAPI().getUid(), currentCursor, Constants.PAGE_COUNT, new RequestListener() {
+        MainActivity.getWeiboAPI().follower(MainActivity.getWeiboAPI().getUid(), currentCursor++, Constants.PAGE_COUNT, new RequestListener() {
             @Override
             public void onComplete(String s) {
 
@@ -26,7 +26,7 @@ public class FollowersFragment extends FriendsFragment {
                 }
                 userList.addAll(data.userList);
                 adapter.notifyDataSetChanged();
-                currentCursor = Integer.parseInt(data.next_cursor);
+//                currentCursor = Integer.parseInt(data.next_cursor);
 
                 setRefreshing(false);
             }
@@ -46,13 +46,14 @@ public class FollowersFragment extends FriendsFragment {
             public void onComplete(String s) {
 
                 userList.clear();
+                currentCursor = 1;
                 UserList data = UserList.parse(s);
                 if (data.userList == null){
                     return;
                 }
                 userList.addAll(data.userList);
                 adapter.notifyDataSetChanged();
-                currentCursor = Integer.parseInt(data.next_cursor);
+//                currentCursor = Integer.parseInt(data.next_cursor);
 
                 setRefreshing(false);
             }

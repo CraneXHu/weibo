@@ -1,6 +1,7 @@
 package me.pkhope.jianwei.api;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 
 import com.sina.weibo.sdk.auth.Oauth2AccessToken;
 import com.sina.weibo.sdk.net.RequestListener;
@@ -79,5 +80,21 @@ public class WeiboAPI {
 
     public void show(long id, RequestListener listener){
         usersAPI.show(id,listener);
+    }
+
+    public void update(String content, RequestListener listener){
+        statusesAPI.update(content, String.valueOf(0.0), String.valueOf(0.0), listener);
+    }
+
+    public void upload(String content, Bitmap bitmap, RequestListener listener){
+        statusesAPI.upload(content,bitmap,String.valueOf(0.0),String.valueOf(0.0),listener);
+    }
+
+    public void create(String comment, long id, boolean comment_ori, RequestListener listener){
+        commentsAPI.create(comment,id,comment_ori,listener);
+    }
+
+    public void repost(long id, String status, int commentType, RequestListener listener){
+        statusesAPI.repost(id,status,commentType,listener);
     }
 }
