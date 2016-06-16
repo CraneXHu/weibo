@@ -34,6 +34,15 @@
 
         </activity>
 
+        <activity android:name=".ui.activity.SendWeiboActivity"
+            android:windowSoftInputMode="adjustResize">
+
+        </activity>
+
+        <activity android:name="me.iwf.photopicker.PhotoPickerActivity" />
+
+        <activity android:name="me.iwf.photopicker.PhotoPagerActivity" />
+
         <activity android:name="com.sina.weibo.sdk.component.WeiboSdkBrowser">
 
         </activity>

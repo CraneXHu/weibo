@@ -14,6 +14,16 @@
         android:layout_below="@id/toolbar_layout"
         android:background="@null" />
 
+    <ImageView
+        android:id="@+id/place_holder"
+        android:layout_width="96dp"
+        android:layout_height="96dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="56dp"
+        android:layout_below="@id/content"
+        android:scaleType="centerCrop"
+        android:src="@mipmap/place_holder"/>
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="48dp"

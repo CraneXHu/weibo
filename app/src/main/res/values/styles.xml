@@ -10,4 +10,15 @@
         <item name="android:listDivider" >@drawable/list_divider</item>
     </style>
 
+    <!--<style name="myTheme.actionBar" parent="ThemeOverlay.AppCompat.Dark.ActionBar">-->
+        <!--<item name="android:textColorPrimary">#0000ff</item>-->
+        <!--<item name="actionBarSize">@dimen/__picker_iwf_actionBarSize</item>-->
+    <!--</style>-->
+
+    <!--<style name="myTheme" parent="Theme.AppCompat.Light.NoActionBar">-->
+        <!--&lt;!&ndash;<item name="actionBarTheme">@style/myTheme.actionBar</item>&ndash;&gt;-->
+        <!--<item name="colorPrimary">@color/colorPrimary</item>-->
+        <!--<item name="actionBarSize">@dimen/__picker_iwf_actionBarSize</item>-->
+    <!--</style>-->
+
 </resources>
