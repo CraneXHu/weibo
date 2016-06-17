@@ -8,6 +8,8 @@ import android.support.v4.app.ListFragment;
 import java.util.ArrayList;
 import java.util.List;
 
+import uk.co.senab.photoview.PhotoViewAttacher;
+
 /**
  * Created by pkhope on 2016/6/7.
  */

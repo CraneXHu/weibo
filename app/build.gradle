@@ -31,4 +31,5 @@ dependencies {
     compile 'de.hdodenhof:circleimageview:2.0.0'
     compile 'com.nineoldandroids:library:2.4.0'
     compile 'me.iwf.photopicker:PhotoPicker:0.8.1@aar'
+    compile 'com.github.chrisbanes:PhotoView:1.2.6'
 }

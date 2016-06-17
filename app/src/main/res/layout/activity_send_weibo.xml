@@ -22,7 +22,7 @@
         android:layout_marginTop="56dp"
         android:layout_below="@id/content"
         android:scaleType="centerCrop"
-        android:src="@mipmap/place_holder"/>
+        android:src="@drawable/add_image"/>
 
     <RelativeLayout
         android:layout_width="match_parent"

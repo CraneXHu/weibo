@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import me.pkhope.jianwei.R;
+import me.pkhope.jianwei.ui.activity.ImageDetailActivity;
 import me.pkhope.jianwei.ui.activity.ReplyActivity;
 import me.pkhope.jianwei.utils.TimeConverter;
 import me.pkhope.jianwei.utils.ToastUtils;
@@ -62,7 +63,7 @@ public class FriendsTimelineAdapter extends RecyclerView.Adapter<RecyclerView.Vi
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
 
         Status status = statusList.get(position);
-        ((TextViewHolder)holder).weiboId = status.id;
+        ((TextViewHolder)holder).status = status;
         ((TextViewHolder)holder).content.setText(status.text);
         ((TextViewHolder)holder).nickname.setText(status.user.name);
         ((TextViewHolder)holder).time.setText(TimeConverter.convert(status.created_at));
@@ -73,18 +74,18 @@ public class FriendsTimelineAdapter extends RecyclerView.Adapter<RecyclerView.Vi
                 .dontAnimate()
                 .thumbnail(0.5f)
 //                .override(holder.avatar.getMeasuredWidth(), holder.avatar.getMeasuredHeight())
-                .placeholder(R.mipmap.ic_launcher)
+                .placeholder(R.drawable.default_image)
                 .into(((TextViewHolder)holder).avatar);
 
         if (holder instanceof ImageViewHolder){
 
             Glide.with(context)
-                    .load(status.pic_urls.get(0))
+                    .load(status.original_pic)
                     .centerCrop()
                     .dontAnimate()
                     .thumbnail(0.5f)
 //                    .override(holder.image.getMeasuredWidth(), holder.image.getMeasuredHeight())
-                    .placeholder(R.mipmap.ic_launcher)
+                    .placeholder(R.drawable.default_image)
                     .into(((ImageViewHolder)holder).image);
         }
     }
@@ -97,7 +98,7 @@ public class FriendsTimelineAdapter extends RecyclerView.Adapter<RecyclerView.Vi
     @Override
     public int getItemViewType(int position) {
 
-        if (statusList.get(position).pic_urls == null){
+        if (statusList.get(position).original_pic.equals("")){
             return TYPE_TEXT_ITEM;
         }else {
             return TYPE_IMAGE_ITEM;
@@ -108,7 +109,7 @@ public class FriendsTimelineAdapter extends RecyclerView.Adapter<RecyclerView.Vi
 
     public class TextViewHolder extends RecyclerView.ViewHolder implements View.OnCreateContextMenuListener,MenuItem.OnMenuItemClickListener{
 
-        public String weiboId;
+        public Status status;
 
         ImageView avatar;
         TextView nickname;
@@ -143,13 +144,13 @@ public class FriendsTimelineAdapter extends RecyclerView.Adapter<RecyclerView.Vi
             } else if (item.getTitle().equals("评论")){
                 intent.putExtra("operation","comment");
             }
-            intent.putExtra("id",weiboId);
+            intent.putExtra("id",status.id);
             rootView.getContext().startActivity(intent);
             return true;
         }
     }
 
-    public class ImageViewHolder extends TextViewHolder {
+    public class ImageViewHolder extends TextViewHolder implements View.OnClickListener{
 
         ImageView image;
 
@@ -157,6 +158,14 @@ public class FriendsTimelineAdapter extends RecyclerView.Adapter<RecyclerView.Vi
             super(itemView);
 
             image = (ImageView) itemView.findViewById(R.id.image);
+            image.setOnClickListener(this);
+        }
+
+        @Override
+        public void onClick(View v) {
+            Intent intent = new Intent(rootView.getContext(), ImageDetailActivity.class);
+            intent.putStringArrayListExtra("images",status.pic_urls);
+            rootView.getContext().startActivity(intent);
         }
     }
 }

@@ -14,7 +14,7 @@
         android:layout_marginTop="8dp"
         android:layout_marginBottom="8dp"
         android:scaleType="centerCrop"
-        android:src="@mipmap/ic_launcher" />
+        android:src="@drawable/default_image" />
 
     <LinearLayout
         android:layout_width="match_parent"
