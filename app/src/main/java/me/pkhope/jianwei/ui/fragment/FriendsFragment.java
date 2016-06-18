@@ -48,7 +48,7 @@ public class FriendsFragment extends BaseFragment {
         MainActivity.getWeiboAPI().friends(MainActivity.getWeiboAPI().getUid(), currentCursor, Constants.PAGE_COUNT, new RequestListener() {
             @Override
             public void onComplete(String s) {
-
+                setRefreshing(false);
                 UserList data = UserList.parse(s);
                 if (data.userList == null){
                     return;
@@ -57,7 +57,6 @@ public class FriendsFragment extends BaseFragment {
                 adapter.notifyDataSetChanged();
                 currentCursor = Integer.parseInt(data.next_cursor);
 
-                setRefreshing(false);
             }
 
             @Override
@@ -72,7 +71,7 @@ public class FriendsFragment extends BaseFragment {
         MainActivity.getWeiboAPI().friends(MainActivity.getWeiboAPI().getUid(), 0, Constants.PAGE_COUNT, new RequestListener() {
             @Override
             public void onComplete(String s) {
-
+                setRefreshing(false);
                 userList.clear();
 //                currentCursor = 1;
                 UserList data = UserList.parse(s);
@@ -83,7 +82,6 @@ public class FriendsFragment extends BaseFragment {
                 adapter.notifyDataSetChanged();
                 currentCursor = Integer.parseInt(data.next_cursor);
 
-                setRefreshing(false);
             }
 
             @Override

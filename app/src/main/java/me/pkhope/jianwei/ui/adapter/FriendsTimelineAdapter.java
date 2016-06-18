@@ -2,11 +2,9 @@ package me.pkhope.jianwei.ui.adapter;
 
 import android.content.Context;
 import android.content.Intent;
-import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,8 +20,8 @@ import java.util.List;
 import me.pkhope.jianwei.R;
 import me.pkhope.jianwei.ui.activity.ImageDetailActivity;
 import me.pkhope.jianwei.ui.activity.ReplyActivity;
+import me.pkhope.jianwei.utils.AdditionText;
 import me.pkhope.jianwei.utils.TimeConverter;
-import me.pkhope.jianwei.utils.ToastUtils;
 import me.pkhope.jianwei.widget.emojitextview.EmojiTextView;
 
 /**
@@ -33,6 +31,7 @@ public class FriendsTimelineAdapter extends RecyclerView.Adapter<RecyclerView.Vi
 
     private static final int TYPE_TEXT_ITEM = 0;
     private static final int TYPE_IMAGE_ITEM = 1;
+    private static final int TYPE_RETWEET_ITEM = 2;
 
     private List<Status> statusList = new ArrayList<>();
 
@@ -46,7 +45,12 @@ public class FriendsTimelineAdapter extends RecyclerView.Adapter<RecyclerView.Vi
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        if (viewType == TYPE_TEXT_ITEM){
+        if (viewType == TYPE_RETWEET_ITEM){
+            View view = LayoutInflater.from(parent.getContext())
+                    .inflate(R.layout.weibo_with_retweet_item,parent,false);
+            return new RetweetViewHolder(view);
+        }
+        else if (viewType == TYPE_TEXT_ITEM){
             View view = LayoutInflater.from(parent.getContext())
                     .inflate(R.layout.weibo_text_item,parent,false);
             return new TextViewHolder(view);
@@ -88,6 +92,11 @@ public class FriendsTimelineAdapter extends RecyclerView.Adapter<RecyclerView.Vi
                     .placeholder(R.drawable.default_image)
                     .into(((ImageViewHolder)holder).image);
         }
+
+        if (holder instanceof RetweetViewHolder){
+
+            ((RetweetViewHolder)holder).retweetContent.setText(AdditionText.retweet(status.retweeted_status.user.name) + status.retweeted_status.text);
+        }
     }
 
     @Override
@@ -98,7 +107,10 @@ public class FriendsTimelineAdapter extends RecyclerView.Adapter<RecyclerView.Vi
     @Override
     public int getItemViewType(int position) {
 
-        if (statusList.get(position).original_pic.equals("")){
+        if (statusList.get(position).retweeted_status != null){
+            return TYPE_RETWEET_ITEM;
+        }
+        else if (statusList.get(position).original_pic.equals("")){
             return TYPE_TEXT_ITEM;
         }else {
             return TYPE_IMAGE_ITEM;
@@ -166,6 +178,17 @@ public class FriendsTimelineAdapter extends RecyclerView.Adapter<RecyclerView.Vi
             Intent intent = new Intent(rootView.getContext(), ImageDetailActivity.class);
             intent.putStringArrayListExtra("images",status.pic_urls);
             rootView.getContext().startActivity(intent);
+        }
+    }
+
+    public class RetweetViewHolder extends TextViewHolder{
+
+        EmojiTextView retweetContent;
+
+        public RetweetViewHolder(View itemView) {
+            super(itemView);
+
+            retweetContent = (EmojiTextView) itemView.findViewById(R.id.retweet_content);
         }
     }
 }

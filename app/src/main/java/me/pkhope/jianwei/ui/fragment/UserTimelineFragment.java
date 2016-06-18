@@ -46,6 +46,7 @@ public class UserTimelineFragment extends BaseFragment {
         MainActivity.getWeiboAPI().userTimeline(currentPage++, Constants.PAGE_COUNT, new RequestListener() {
             @Override
             public void onComplete(String s) {
+                setRefreshing(false);
                 StatusList data = StatusList.parse(s);
                 if (data.statusList == null){
                     return;
@@ -53,7 +54,6 @@ public class UserTimelineFragment extends BaseFragment {
                 statusList.addAll(data.statusList);
                 adapter.notifyDataSetChanged();
 
-                setRefreshing(false);
             }
 
             @Override
@@ -70,7 +70,7 @@ public class UserTimelineFragment extends BaseFragment {
         MainActivity.getWeiboAPI().userTimeline(1, Constants.PAGE_COUNT, new RequestListener() {
             @Override
             public void onComplete(String s) {
-
+                setRefreshing(false);
                 statusList.clear();
                 currentPage = 2;
                 StatusList data = StatusList.parse(s);
@@ -80,7 +80,6 @@ public class UserTimelineFragment extends BaseFragment {
                 statusList.addAll(data.statusList);
                 adapter.notifyDataSetChanged();
 
-                setRefreshing(false);
             }
 
             @Override

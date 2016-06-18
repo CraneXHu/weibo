@@ -10,6 +10,8 @@ import com.sina.weibo.sdk.exception.WeiboException;
 import com.sina.weibo.sdk.net.RequestListener;
 import com.sina.weibo.sdk.openapi.models.Comment;
 import com.sina.weibo.sdk.openapi.models.CommentList;
+import com.sina.weibo.sdk.openapi.models.Status;
+import com.sina.weibo.sdk.openapi.models.StatusList;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,6 +19,7 @@ import java.util.List;
 import me.pkhope.jianwei.ui.activity.MainActivity;
 import me.pkhope.jianwei.ui.adapter.CommentAdapter;
 import me.pkhope.jianwei.Constants;
+import me.pkhope.jianwei.ui.adapter.FriendsTimelineAdapter;
 import me.pkhope.jianwei.ui.base.BaseFragment;
 
 /**
@@ -25,13 +28,13 @@ import me.pkhope.jianwei.ui.base.BaseFragment;
 public class MentionsFragment extends BaseFragment {
 
     private int currentPage = 2;
-    private List<Comment> commentList = new ArrayList<>();
+    private List<Status> statusList = new ArrayList<>();
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
-        adapter = new CommentAdapter(getContext(),commentList);
+        adapter = new FriendsTimelineAdapter(getContext(),statusList);
         return super.onCreateView(inflater, container, savedInstanceState);
     }
 
@@ -43,14 +46,14 @@ public class MentionsFragment extends BaseFragment {
         MainActivity.getWeiboAPI().mentions(currentPage++, Constants.PAGE_COUNT, new RequestListener() {
             @Override
             public void onComplete(String s) {
-                CommentList data = CommentList.parse(s);
-                if (data.commentList == null){
+                setRefreshing(false);
+                StatusList data = StatusList.parse(s);
+                if (data.statusList == null){
                     return;
                 }
-                commentList.addAll(data.commentList);
+                statusList.addAll(data.statusList);
                 adapter.notifyDataSetChanged();
 
-                setRefreshing(false);
             }
 
             @Override
@@ -68,16 +71,17 @@ public class MentionsFragment extends BaseFragment {
             @Override
             public void onComplete(String s) {
 
-                commentList.clear();
+                setRefreshing(false);
+
+                statusList.clear();
                 currentPage = 2;
-                CommentList data = CommentList.parse(s);
-                if (data.commentList == null){
+                StatusList data = StatusList.parse(s);
+                if (data.statusList == null){
                     return;
                 }
-                commentList.addAll(data.commentList);
+                statusList.addAll(data.statusList);
                 adapter.notifyDataSetChanged();
 
-                setRefreshing(false);
             }
 
             @Override

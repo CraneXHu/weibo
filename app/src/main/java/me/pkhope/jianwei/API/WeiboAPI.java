@@ -55,7 +55,7 @@ public class WeiboAPI {
     }
 
     public void mentions(int page, int count, RequestListener listener){
-        statusesAPI.mentions(0,0,count,page,0,0,0,false,listener);
+        statusesAPI.mentions(0,0,count,page,0,0,0,true,listener);
     }
 
     public void friends(String name,int page,int count,RequestListener listener){

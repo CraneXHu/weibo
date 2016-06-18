@@ -45,6 +45,8 @@ public class CommentToMeFragment extends BaseFragment {
             @Override
             public void onComplete(String s) {
 
+                setRefreshing(false);
+
                 CommentList data = CommentList.parse(s);
                 if (data.commentList == null){
                     return;
@@ -52,7 +54,6 @@ public class CommentToMeFragment extends BaseFragment {
                 commentList.addAll(data.commentList);
                 adapter.notifyDataSetChanged();
 
-                setRefreshing(false);
             }
 
             @Override
@@ -69,7 +70,7 @@ public class CommentToMeFragment extends BaseFragment {
         MainActivity.getWeiboAPI().toME(1, Constants.PAGE_COUNT, new RequestListener() {
             @Override
             public void onComplete(String s) {
-
+                setRefreshing(false);
                 commentList.clear();
                 currentPage = 2;
                 CommentList data = CommentList.parse(s);
@@ -79,7 +80,6 @@ public class CommentToMeFragment extends BaseFragment {
                 commentList.addAll(data.commentList);
                 adapter.notifyDataSetChanged();
 
-                setRefreshing(false);
             }
 
             @Override

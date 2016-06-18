@@ -15,7 +15,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import me.pkhope.jianwei.R;
+import me.pkhope.jianwei.utils.AdditionText;
 import me.pkhope.jianwei.utils.TimeConverter;
+import me.pkhope.jianwei.widget.emojitextview.EmojiTextView;
 
 /**
  * Created by pkhope on 2016/6/11.
@@ -42,7 +44,18 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
     public void onBindViewHolder(CommentViewHolder holder, int position) {
 
         Comment comment = commentList.get(position);
-        holder.content.setText(comment.text);
+        if (comment.reply_comment == null){
+            holder.comment.setText(comment.text);
+        } else {
+            Comment reply = comment.reply_comment;
+            String replyText = "";
+            while(reply != null){
+                replyText += AdditionText.retweet(reply.user.name) + reply.text;
+                reply = reply.reply_comment;
+            }
+            holder.comment.setText(comment.text + replyText);
+        }
+
         holder.nickname.setText(comment.user.name);
         holder.time.setText(TimeConverter.convert(comment.created_at));
 
@@ -50,6 +63,8 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
                 .load(comment.user.profile_image_url)
                 .centerCrop()
                 .into(holder.avatar);
+
+        holder.source.setText(AdditionText.retweet(comment.status.user.name) + comment.status.text);
     }
 
     @Override
@@ -60,17 +75,21 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
     public class CommentViewHolder extends RecyclerView.ViewHolder{
 
         private ImageView avatar;
-        private TextView content;
+        private EmojiTextView comment;
         private TextView nickname;
         private TextView time;
+
+        private EmojiTextView source;
 
         public CommentViewHolder(View itemView) {
             super(itemView);
 
             avatar = (ImageView)itemView.findViewById(R.id.avatar);
-            content = (TextView)itemView.findViewById(R.id.content);
+            comment = (EmojiTextView) itemView.findViewById(R.id.comment);
             nickname = (TextView)itemView.findViewById(R.id.nickname);
             time = (TextView)itemView.findViewById(R.id.time);
+
+            source = (EmojiTextView)itemView.findViewById(R.id.source);
         }
     }
 }

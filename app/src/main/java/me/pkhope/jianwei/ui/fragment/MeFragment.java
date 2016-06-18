@@ -49,6 +49,9 @@ public class MeFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
+        fragmentList.clear();
+        titleList.clear();
+
         final ViewPager viewPager = (ViewPager)getView().findViewById(R.id.view_pager);
         fragmentList.add(new UserTimelineFragment());
         fragmentList.add(new FollowersFragment());
