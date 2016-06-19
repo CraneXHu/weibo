@@ -16,6 +16,9 @@ import android.widget.Toast;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import me.pkhope.jianwei.ui.activity.UserActivity;
+import me.pkhope.jianwei.ui.activity.WebActivity;
+
 /**
  * Created by wenmingvs on 16/4/16.
  */
@@ -50,8 +53,11 @@ public class WeiBoContentTextUtil {
                 WeiBoContentClickableSpan myClickableSpan = new WeiBoContentClickableSpan(context) {
                     @Override
                     public void onClick(View widget) {
-
-                        Toast.makeText(context, "点击了用户：" + at, Toast.LENGTH_SHORT).show();
+                        Intent intent = new Intent(context, UserActivity.class);
+                        intent.putExtra("nickname",at);
+                        intent.putExtra("from","text");
+                        context.startActivity(intent);
+//                        Toast.makeText(context, "点击了用户：" + at, Toast.LENGTH_SHORT).show();
                     }
                 };
                 spannableStringBuilder.setSpan(myClickableSpan, start, end, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
@@ -80,8 +86,11 @@ public class WeiBoContentTextUtil {
                     @Override
                     public void onClick(View widget) {
 
-                        Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
-                        context.startActivity(browserIntent);
+//                        Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+//                        context.startActivity(browserIntent);
+                        Intent intent = new Intent(context, WebActivity.class);
+                        intent.putExtra("url",url);
+                        context.startActivity(intent);
                         //Toast.makeText(context, "点击了网址：" + url, Toast.LENGTH_LONG).show();
                     }
                 };

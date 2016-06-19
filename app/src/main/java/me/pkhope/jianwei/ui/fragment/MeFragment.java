@@ -88,7 +88,7 @@ public class MeFragment extends Fragment {
                         .dontAnimate()
                         .thumbnail(0.5f)
 //                .override(holder.avatar.getMeasuredWidth(), holder.avatar.getMeasuredHeight())
-                        .placeholder(R.mipmap.ic_launcher)
+                        .placeholder(R.drawable.default_image)
                         .into(avatar);
 
             }

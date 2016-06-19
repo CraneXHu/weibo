@@ -1,4 +1,4 @@
-package me.pkhope.jianwei;
+package me.pkhope.jianwei.interfaces;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -8,6 +8,7 @@ import com.sina.weibo.sdk.auth.Oauth2AccessToken;
 import com.sina.weibo.sdk.auth.WeiboAuthListener;
 import com.sina.weibo.sdk.exception.WeiboException;
 
+import me.pkhope.jianwei.utils.AccessTokenPreference;
 import me.pkhope.jianwei.utils.ToastUtils;
 
 /**

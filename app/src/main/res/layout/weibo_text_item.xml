@@ -3,6 +3,7 @@
     android:orientation="horizontal" android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:clickable="true"
+    android:descendantFocusability="afterDescendants"
     android:background="@drawable/item_bg">
 
     <de.hdodenhof.circleimageview.CircleImageView

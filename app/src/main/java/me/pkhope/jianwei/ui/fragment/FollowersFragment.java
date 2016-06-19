@@ -4,6 +4,7 @@ import com.sina.weibo.sdk.exception.WeiboException;
 import com.sina.weibo.sdk.net.RequestListener;
 
 import me.pkhope.jianwei.Constants;
+import me.pkhope.jianwei.interfaces.Identifier;
 import me.pkhope.jianwei.models.UserList;
 import me.pkhope.jianwei.ui.activity.MainActivity;
 
@@ -16,7 +17,7 @@ public class FollowersFragment extends FriendsFragment {
     protected void loadMore() {
 //        super.loadPage(page);
         setRefreshing(true);
-        MainActivity.getWeiboAPI().follower(MainActivity.getWeiboAPI().getUid(), currentCursor++, Constants.PAGE_COUNT, new RequestListener() {
+        MainActivity.getWeiboAPI().follower(((Identifier)getActivity()).getIdentifier(), currentCursor++, Constants.PAGE_COUNT, new RequestListener() {
             @Override
             public void onComplete(String s) {
                 setRefreshing(false);
@@ -40,7 +41,7 @@ public class FollowersFragment extends FriendsFragment {
     @Override
     protected void refreshData() {
 
-        MainActivity.getWeiboAPI().follower(MainActivity.getWeiboAPI().getUid(), 0, Constants.PAGE_COUNT, new RequestListener() {
+        MainActivity.getWeiboAPI().follower(((Identifier)getActivity()).getIdentifier(), 0, Constants.PAGE_COUNT, new RequestListener() {
             @Override
             public void onComplete(String s) {
                 setRefreshing(false);

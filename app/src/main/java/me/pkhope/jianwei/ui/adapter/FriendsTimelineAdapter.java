@@ -20,6 +20,8 @@ import java.util.List;
 import me.pkhope.jianwei.R;
 import me.pkhope.jianwei.ui.activity.ImageDetailActivity;
 import me.pkhope.jianwei.ui.activity.ReplyActivity;
+import me.pkhope.jianwei.ui.activity.UserActivity;
+import me.pkhope.jianwei.ui.activity.WeiboDetailActivity;
 import me.pkhope.jianwei.utils.AdditionText;
 import me.pkhope.jianwei.utils.TimeConverter;
 import me.pkhope.jianwei.widget.emojitextview.EmojiTextView;
@@ -119,7 +121,7 @@ public class FriendsTimelineAdapter extends RecyclerView.Adapter<RecyclerView.Vi
 
 
 
-    public class TextViewHolder extends RecyclerView.ViewHolder implements View.OnCreateContextMenuListener,MenuItem.OnMenuItemClickListener{
+    public class TextViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener,View.OnCreateContextMenuListener,MenuItem.OnMenuItemClickListener{
 
         public Status status;
 
@@ -138,6 +140,22 @@ public class FriendsTimelineAdapter extends RecyclerView.Adapter<RecyclerView.Vi
             content = (EmojiTextView) itemView.findViewById(R.id.content);
 
             itemView.setOnCreateContextMenuListener(this);
+            itemView.setOnClickListener(this);
+            avatar.setOnClickListener(this);
+        }
+
+        @Override
+        public void onClick(View v) {
+            if (v == avatar){
+                Intent intent = new Intent(v.getContext(), UserActivity.class);
+                intent.putExtra("nickname",status.user.screen_name);
+                intent.putExtra("from","photo");
+                v.getContext().startActivity(intent);
+            } else {
+                Intent intent = new Intent(v.getContext(), WeiboDetailActivity.class);
+                intent.putExtra("id",status.id);
+                v.getContext().startActivity(intent);
+            }
         }
 
         @Override
@@ -175,9 +193,14 @@ public class FriendsTimelineAdapter extends RecyclerView.Adapter<RecyclerView.Vi
 
         @Override
         public void onClick(View v) {
-            Intent intent = new Intent(rootView.getContext(), ImageDetailActivity.class);
-            intent.putStringArrayListExtra("images",status.pic_urls);
-            rootView.getContext().startActivity(intent);
+            if (v == image){
+                Intent intent = new Intent(rootView.getContext(), ImageDetailActivity.class);
+                intent.putStringArrayListExtra("images",status.pic_urls);
+                rootView.getContext().startActivity(intent);
+
+            } else {
+                super.onClick(v);
+            }
         }
     }
 

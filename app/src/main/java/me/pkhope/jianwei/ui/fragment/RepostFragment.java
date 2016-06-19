@@ -3,61 +3,63 @@ package me.pkhope.jianwei.ui.fragment;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.sina.weibo.sdk.exception.WeiboException;
 import com.sina.weibo.sdk.net.RequestListener;
+import com.sina.weibo.sdk.openapi.models.Comment;
 import com.sina.weibo.sdk.openapi.models.Status;
 import com.sina.weibo.sdk.openapi.models.StatusList;
-import com.sina.weibo.sdk.openapi.models.User;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import me.pkhope.jianwei.Constants;
 import me.pkhope.jianwei.interfaces.Identifier;
-import me.pkhope.jianwei.models.UserList;
 import me.pkhope.jianwei.ui.activity.MainActivity;
-import me.pkhope.jianwei.ui.adapter.UserAdapter;
+import me.pkhope.jianwei.ui.adapter.FriendsTimelineAdapter;
 import me.pkhope.jianwei.ui.base.BaseFragment;
 
 /**
- * Created by pkhope on 2016/6/12.
+ * Created by pkhope on 2016/6/19.
  */
-public class FriendsFragment extends BaseFragment {
+public class RepostFragment extends BaseFragment{
 
-    protected int currentCursor = 1;
-    protected List<User> userList;
+    private int currentPage = 1;
+    private List<Status> statusList = new ArrayList<>();
 
-    public FriendsFragment(){
-        userList = new ArrayList<>();
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+
+
     }
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
-        adapter = new UserAdapter(getContext(),userList);
+        adapter = new FriendsTimelineAdapter(getContext(),statusList);
         return super.onCreateView(inflater, container, savedInstanceState);
     }
 
     @Override
     protected void loadMore() {
-//        super.loadPage(page);
+
         setRefreshing(true);
-        MainActivity.getWeiboAPI().friends(((Identifier)getActivity()).getIdentifier(), currentCursor, Constants.PAGE_COUNT, new RequestListener() {
+        MainActivity.getWeiboAPI().repostTimeline(Long.parseLong(((Identifier)getActivity()).getIdentifier()),currentPage++, Constants.PAGE_COUNT, new RequestListener() {
             @Override
             public void onComplete(String s) {
                 setRefreshing(false);
-                UserList data = UserList.parse(s);
-                if (data.userList == null){
+                StatusList data = StatusList.parse(s);
+                if (data.statusList == null){
                     return;
                 }
-                userList.addAll(data.userList);
+                statusList.addAll(data.statusList);
                 adapter.notifyDataSetChanged();
-                currentCursor = Integer.parseInt(data.next_cursor);
 
             }
 
@@ -71,19 +73,20 @@ public class FriendsFragment extends BaseFragment {
     @Override
     protected void refreshData() {
 
-        MainActivity.getWeiboAPI().friends(((Identifier)getActivity()).getIdentifier(), 0, Constants.PAGE_COUNT, new RequestListener() {
+        setRefreshing(true);
+        MainActivity.getWeiboAPI().repostTimeline(Long.parseLong(((Identifier)getActivity()).getIdentifier()),1, Constants.PAGE_COUNT, new RequestListener() {
+
             @Override
             public void onComplete(String s) {
                 setRefreshing(false);
-                userList.clear();
-//                currentCursor = 1;
-                UserList data = UserList.parse(s);
-                if (data.userList == null){
+                statusList.clear();
+                currentPage = 2;
+                StatusList data = StatusList.parse(s);
+                if (data.statusList == null){
                     return;
                 }
-                userList.addAll(data.userList);
+                statusList.addAll(data.statusList);
                 adapter.notifyDataSetChanged();
-                currentCursor = Integer.parseInt(data.next_cursor);
 
             }
 

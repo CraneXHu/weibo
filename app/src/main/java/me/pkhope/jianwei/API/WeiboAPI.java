@@ -46,6 +46,10 @@ public class WeiboAPI {
         statusesAPI.userTimeline(0,0,count,page,false,0,false,listener);
     }
 
+    public void userTimeline(String name,int page, int count, RequestListener listener){
+        statusesAPI.userTimeline(name,0,0,count,page,false,0,false,listener);
+    }
+
     public void toME(int page, int count, RequestListener listener){
         commentsAPI.toME(0,0,count,page,0,0,listener);
     }
@@ -82,6 +86,14 @@ public class WeiboAPI {
         usersAPI.show(id,listener);
     }
 
+    public void show(long id, int page, int count, RequestListener listener){
+        commentsAPI.show(id,0,0,count,page,0,listener);
+    }
+
+    public void repostTimeline(long id, int count, int page, RequestListener listener){
+        statusesAPI.repostTimeline(id,0,0,count,page,0,listener);
+    }
+
     public void update(String content, RequestListener listener){
         statusesAPI.update(content, String.valueOf(0.0), String.valueOf(0.0), listener);
     }
@@ -96,5 +108,9 @@ public class WeiboAPI {
 
     public void repost(long id, String status, int commentType, RequestListener listener){
         statusesAPI.repost(id,status,commentType,listener);
+    }
+
+    public void showWeiboDetail(long id, RequestListener listener){
+        statusesAPI.show(id,listener);
     }
 }

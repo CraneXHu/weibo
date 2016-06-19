@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import me.pkhope.jianwei.Constants;
+import me.pkhope.jianwei.interfaces.Identifier;
 import me.pkhope.jianwei.ui.activity.MainActivity;
 import me.pkhope.jianwei.ui.adapter.FriendsTimelineAdapter;
 import me.pkhope.jianwei.ui.base.BaseFragment;
@@ -43,7 +44,7 @@ public class UserTimelineFragment extends BaseFragment {
     protected void loadMore() {
 
         setRefreshing(true);
-        MainActivity.getWeiboAPI().userTimeline(currentPage++, Constants.PAGE_COUNT, new RequestListener() {
+        MainActivity.getWeiboAPI().userTimeline(((Identifier)getActivity()).getIdentifier(),currentPage++, Constants.PAGE_COUNT, new RequestListener() {
             @Override
             public void onComplete(String s) {
                 setRefreshing(false);
@@ -67,7 +68,7 @@ public class UserTimelineFragment extends BaseFragment {
     protected void refreshData() {
 
         setRefreshing(true);
-        MainActivity.getWeiboAPI().userTimeline(1, Constants.PAGE_COUNT, new RequestListener() {
+        MainActivity.getWeiboAPI().userTimeline(((Identifier)getActivity()).getIdentifier(),1, Constants.PAGE_COUNT, new RequestListener() {
             @Override
             public void onComplete(String s) {
                 setRefreshing(false);

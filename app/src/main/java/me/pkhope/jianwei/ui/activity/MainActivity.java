@@ -12,17 +12,18 @@ import android.view.View;
 
 import com.ashokvarma.bottomnavigation.BottomNavigationBar;
 import com.ashokvarma.bottomnavigation.BottomNavigationItem;
-import com.sina.weibo.sdk.auth.AuthInfo;
 import com.sina.weibo.sdk.auth.Oauth2AccessToken;
 import com.sina.weibo.sdk.auth.sso.SsoHandler;
-import com.sina.weibo.sdk.openapi.StatusesAPI;
+import com.sina.weibo.sdk.exception.WeiboException;
+import com.sina.weibo.sdk.net.RequestListener;
+import com.sina.weibo.sdk.openapi.models.User;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import me.pkhope.jianwei.AccessTokenPreference;
-import me.pkhope.jianwei.AuthListener;
+import me.pkhope.jianwei.utils.AccessTokenPreference;
 import me.pkhope.jianwei.Constants;
+import me.pkhope.jianwei.interfaces.Identifier;
 import me.pkhope.jianwei.ui.adapter.MyFragmentPagerAdapter;
 import me.pkhope.jianwei.R;
 import me.pkhope.jianwei.api.WeiboAPI;
@@ -30,7 +31,7 @@ import me.pkhope.jianwei.ui.fragment.MeFragment;
 import me.pkhope.jianwei.ui.fragment.MessageFragment;
 import me.pkhope.jianwei.ui.fragment.FriendsTimelineFragment;
 
-public class MainActivity extends AppCompatActivity implements BottomNavigationBar.OnTabSelectedListener{
+public class MainActivity extends AppCompatActivity implements Identifier,BottomNavigationBar.OnTabSelectedListener{
 
     public static WeiboAPI weiboAPI;
 
@@ -45,6 +46,8 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationB
     private BottomNavigationBar bottomNavigationBar;
 
     private List<Fragment> fragmentList = new ArrayList<>();
+
+    private String nickname = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,6 +71,18 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationB
 
         auth();
 
+        weiboAPI.show(weiboAPI.getUid(), new RequestListener() {
+            @Override
+            public void onComplete(String s) {
+                User user = User.parse(s);
+                nickname = user.screen_name;
+            }
+
+            @Override
+            public void onWeiboException(WeiboException e) {
+                 e.printStackTrace();
+            }
+        });
     }
 
     public static WeiboAPI getWeiboAPI(){
@@ -172,5 +187,11 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationB
     @Override
     public void onTabReselected(int position) {
 
+    }
+
+    @Override
+    public String getIdentifier() {
+
+        return nickname;
     }
 }

@@ -1,6 +1,5 @@
 package me.pkhope.jianwei.ui.fragment;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
@@ -9,55 +8,51 @@ import android.view.ViewGroup;
 
 import com.sina.weibo.sdk.exception.WeiboException;
 import com.sina.weibo.sdk.net.RequestListener;
-import com.sina.weibo.sdk.openapi.models.Status;
-import com.sina.weibo.sdk.openapi.models.StatusList;
-import com.sina.weibo.sdk.openapi.models.User;
+import com.sina.weibo.sdk.openapi.models.Comment;
+import com.sina.weibo.sdk.openapi.models.CommentList;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import me.pkhope.jianwei.Constants;
 import me.pkhope.jianwei.interfaces.Identifier;
-import me.pkhope.jianwei.models.UserList;
 import me.pkhope.jianwei.ui.activity.MainActivity;
-import me.pkhope.jianwei.ui.adapter.UserAdapter;
+import me.pkhope.jianwei.ui.adapter.CommentAdapter;
 import me.pkhope.jianwei.ui.base.BaseFragment;
 
 /**
- * Created by pkhope on 2016/6/12.
+ * Created by pkhope on 2016/6/19.
  */
-public class FriendsFragment extends BaseFragment {
+public class CommentFragment extends BaseFragment{
 
-    protected int currentCursor = 1;
-    protected List<User> userList;
-
-    public FriendsFragment(){
-        userList = new ArrayList<>();
-    }
+    private int currentPage = 2;
+    private List<Comment> commentList = new ArrayList<>();
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
-        adapter = new UserAdapter(getContext(),userList);
+        adapter = new CommentAdapter(getContext(),commentList);
         return super.onCreateView(inflater, container, savedInstanceState);
     }
 
     @Override
     protected void loadMore() {
-//        super.loadPage(page);
+
         setRefreshing(true);
-        MainActivity.getWeiboAPI().friends(((Identifier)getActivity()).getIdentifier(), currentCursor, Constants.PAGE_COUNT, new RequestListener() {
+
+        MainActivity.getWeiboAPI().show(Long.parseLong(((Identifier)getActivity()).getIdentifier()),currentPage++, Constants.PAGE_COUNT, new RequestListener() {
             @Override
             public void onComplete(String s) {
+
                 setRefreshing(false);
-                UserList data = UserList.parse(s);
-                if (data.userList == null){
+
+                CommentList data = CommentList.parse(s);
+                if (data.commentList == null){
                     return;
                 }
-                userList.addAll(data.userList);
+                commentList.addAll(data.commentList);
                 adapter.notifyDataSetChanged();
-                currentCursor = Integer.parseInt(data.next_cursor);
 
             }
 
@@ -68,22 +63,23 @@ public class FriendsFragment extends BaseFragment {
         });
     }
 
+
     @Override
     protected void refreshData() {
 
-        MainActivity.getWeiboAPI().friends(((Identifier)getActivity()).getIdentifier(), 0, Constants.PAGE_COUNT, new RequestListener() {
+        MainActivity.getWeiboAPI().show(Long.parseLong(((Identifier)getActivity()).getIdentifier()),1, Constants.PAGE_COUNT, new RequestListener() {
             @Override
             public void onComplete(String s) {
                 setRefreshing(false);
-                userList.clear();
-//                currentCursor = 1;
-                UserList data = UserList.parse(s);
-                if (data.userList == null){
+
+                commentList.clear();
+                currentPage = 2;
+                CommentList data = CommentList.parse(s);
+                if (data.commentList == null){
                     return;
                 }
-                userList.addAll(data.userList);
+                commentList.addAll(data.commentList);
                 adapter.notifyDataSetChanged();
-                currentCursor = Integer.parseInt(data.next_cursor);
 
             }
 

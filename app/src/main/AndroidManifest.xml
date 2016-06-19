@@ -43,6 +43,18 @@
 
         </activity>
 
+        <activity android:name=".ui.activity.WebActivity">
+
+        </activity>
+
+        <activity android:name=".ui.activity.UserActivity">
+
+        </activity>
+
+        <activity android:name=".ui.activity.WeiboDetailActivity">
+
+        </activity>
+
         <activity android:name="me.iwf.photopicker.PhotoPickerActivity" />
 
         <activity android:name="me.iwf.photopicker.PhotoPagerActivity" />

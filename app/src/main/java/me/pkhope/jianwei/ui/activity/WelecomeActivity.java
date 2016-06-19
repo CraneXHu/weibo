@@ -9,7 +9,7 @@ import android.view.WindowManager;
 
 import com.sina.weibo.sdk.auth.Oauth2AccessToken;
 
-import me.pkhope.jianwei.AccessTokenPreference;
+import me.pkhope.jianwei.utils.AccessTokenPreference;
 import me.pkhope.jianwei.R;
 
 /**
