@@ -1,73 +1,89 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:layout_height="match_parent">
 
-    <include layout="@layout/view_toolbar"/>
-
-    <RelativeLayout
+    <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp">
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+        android:background="@color/white">
 
-        <de.hdodenhof.circleimageview.CircleImageView
-            android:id="@+id/avatar"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            android:src="@drawable/default_image"/>
-
-        <TextView
-            android:id="@+id/nickname"
-            android:layout_width="wrap_content"
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="16dp"
-            android:hint="pkhope404"
-            android:layout_toRightOf="@id/avatar"
-            android:textStyle="bold"
-            android:textColor="@color/black"
-            android:textSize="16sp"/>
+            android:background="?attr/colorPrimary"
+            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+            app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+            app:layout_scrollFlags="scroll|enterAlways"/>
 
-        <ImageView
-            android:id="@+id/gender"
-            android:layout_width="12dp"
-            android:layout_height="12dp"
-            android:layout_marginLeft="8dp"
-            android:layout_alignBottom="@+id/nickname"
-            android:layout_toEndOf="@+id/nickname" />
-
-        <TextView
-            android:id="@+id/intro"
-            android:layout_width="wrap_content"
+        <RelativeLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
             android:layout_marginLeft="16dp"
-            android:layout_marginTop="8dp"
-            android:textColor="@color/content_text_color"
-            android:textSize="16sp"
-            android:hint="程序猿"
-            android:layout_toRightOf="@id/avatar"
-            android:layout_below="@id/nickname"/>
-    </RelativeLayout>
+            android:layout_marginRight="16dp"
+            app:layout_scrollFlags="scroll|enterAlways">
 
-    <android.support.design.widget.TabLayout
-        android:id="@+id/tab"
-        android:layout_height="wrap_content"
-        android:layout_width="match_parent"
-        android:layout_marginTop="16dp"
-        app:tabIndicatorColor="@color/blue"
-        app:tabSelectedTextColor="@color/blue"
-        app:tabTextColor="@color/content_text_color">
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/avatar"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:src="@drawable/default_image"/>
 
-    </android.support.design.widget.TabLayout>
+            <TextView
+                android:id="@+id/nickname"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:hint="pkhope404"
+                android:layout_toRightOf="@id/avatar"
+                android:textStyle="bold"
+                android:textColor="@color/black"
+                android:textSize="16sp"/>
+
+            <ImageView
+                android:id="@+id/gender"
+                android:layout_width="12dp"
+                android:layout_height="12dp"
+                android:layout_marginLeft="8dp"
+                android:layout_alignBottom="@+id/nickname"
+                android:layout_toEndOf="@+id/nickname" />
+
+            <TextView
+                android:id="@+id/intro"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="8dp"
+                android:textColor="@color/content_text_color"
+                android:textSize="16sp"
+                android:hint="程序猿"
+                android:layout_toRightOf="@id/avatar"
+                android:layout_below="@id/nickname"/>
+        </RelativeLayout>
+
+        <android.support.design.widget.TabLayout
+            android:id="@+id/tab"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_marginTop="16dp"
+            app:tabIndicatorColor="@color/blue"
+            app:tabSelectedTextColor="@color/blue"
+            app:tabTextColor="@color/content_text_color">
+
+        </android.support.design.widget.TabLayout>
+    </android.support.design.widget.AppBarLayout>
+
 
     <android.support.v4.view.ViewPager
         android:id="@+id/view_pager"
         android:layout_height="match_parent"
-        android:layout_width="match_parent">
+        android:layout_width="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
     </android.support.v4.view.ViewPager>
 
-</LinearLayout>
+</android.support.design.widget.CoordinatorLayout>
