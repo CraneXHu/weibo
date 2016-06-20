@@ -9,6 +9,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -133,6 +134,7 @@ public class FriendsTimelineAdapter extends RecyclerView.Adapter<RecyclerView.Vi
 
         public TextViewHolder(View itemView) {
             super(itemView);
+
             rootView = itemView;
             avatar = (ImageView) itemView.findViewById(R.id.avatar);
             nickname = (TextView) itemView.findViewById(R.id.nickname);
@@ -140,6 +142,7 @@ public class FriendsTimelineAdapter extends RecyclerView.Adapter<RecyclerView.Vi
             content = (EmojiTextView) itemView.findViewById(R.id.content);
 
             itemView.setOnCreateContextMenuListener(this);
+
             itemView.setOnClickListener(this);
             avatar.setOnClickListener(this);
         }
@@ -182,13 +185,17 @@ public class FriendsTimelineAdapter extends RecyclerView.Adapter<RecyclerView.Vi
 
     public class ImageViewHolder extends TextViewHolder implements View.OnClickListener{
 
+        LinearLayout llImage;
         ImageView image;
 
         public ImageViewHolder(View itemView){
             super(itemView);
 
+            llImage = (LinearLayout) itemView.findViewById(R.id.ll_image);
             image = (ImageView) itemView.findViewById(R.id.image);
             image.setOnClickListener(this);
+
+            llImage.setOnClickListener(this);
         }
 
         @Override
@@ -206,12 +213,19 @@ public class FriendsTimelineAdapter extends RecyclerView.Adapter<RecyclerView.Vi
 
     public class RetweetViewHolder extends TextViewHolder{
 
+        LinearLayout llText;
+        LinearLayout llRetweet;
         EmojiTextView retweetContent;
 
         public RetweetViewHolder(View itemView) {
             super(itemView);
 
+            llText = (LinearLayout) itemView.findViewById(R.id.ll_text);
+            llRetweet = (LinearLayout) itemView.findViewById(R.id.ll_retweet);
             retweetContent = (EmojiTextView) itemView.findViewById(R.id.retweet_content);
+
+            llText.setOnClickListener(this);
+            llRetweet.setOnClickListener(this);
         }
     }
 }

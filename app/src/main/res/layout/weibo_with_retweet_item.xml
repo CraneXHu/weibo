@@ -3,11 +3,14 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:clickable="true"
+    android:descendantFocusability="blocksDescendants">
 
     <include layout="@layout/weibo_text_item"/>
 
     <LinearLayout
+        android:id="@+id/ll_retweet"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingLeft="80dp"
