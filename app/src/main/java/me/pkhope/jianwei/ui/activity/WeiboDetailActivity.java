@@ -123,6 +123,7 @@ public class WeiboDetailActivity extends AppCompatActivity implements Identifier
         fragmentList.add(new CommentFragment());
         adapter = new MyFragmentPagerAdapter(getSupportFragmentManager(),fragmentList);
         viewPager.setAdapter(adapter);
+        viewPager.setCurrentItem(1);
 
         tabLayout = (TabLayout) findViewById(R.id.tab);
         tabLayout.setTabMode(TabLayout.MODE_FIXED);

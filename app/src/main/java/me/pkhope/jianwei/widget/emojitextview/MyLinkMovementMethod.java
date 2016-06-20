@@ -13,7 +13,7 @@ import android.view.MotionEvent;
 import android.widget.TextView;
 
 /**
- * Created by thinkpad on 2016/6/16.
+ * Created by pkhope on 2016/6/16.
  */
 public class MyLinkMovementMethod extends LinkMovementMethod {
 
@@ -52,12 +52,13 @@ public class MyLinkMovementMethod extends LinkMovementMethod {
                 if (action == MotionEvent.ACTION_UP) {
                     link[0].onClick(widget);
 
-                    Spannable spannable = ((Spannable)widget.getText());
-                    Selection.removeSelection(spannable);
-
                     buffer.setSpan(new BackgroundColorSpan(Color.TRANSPARENT),
                             buffer.getSpanStart(link[0]), buffer.getSpanEnd(link[0]),
                             Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+
+//                    Spannable spannable = ((Spannable)widget.getText());
+//                    Selection.removeSelection(spannable);
+                    Selection.removeSelection(buffer);
 
                 } else if (action == MotionEvent.ACTION_DOWN) {
 
