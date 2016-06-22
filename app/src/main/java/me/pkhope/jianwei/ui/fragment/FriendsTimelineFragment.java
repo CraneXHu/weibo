@@ -1,6 +1,8 @@
 package me.pkhope.jianwei.ui.fragment;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -38,8 +40,15 @@ public class FriendsTimelineFragment extends BaseFragment {
     @Override
     protected void loadMore() {
 
+        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(getContext());
+        boolean bOriginal = sp.getBoolean("original",false);
+        int type = 0;
+        if (bOriginal){
+            type = 1;
+        }
+
         setRefreshing(true);
-        MainActivity.getWeiboAPI().friendsTimeline(currentPage++, Constants.PAGE_COUNT, new RequestListener() {
+        MainActivity.getWeiboAPI().friendsTimeline(currentPage++, Constants.PAGE_COUNT, type, new RequestListener() {
             @Override
             public void onComplete(String s) {
                 setRefreshing(false);
@@ -62,8 +71,14 @@ public class FriendsTimelineFragment extends BaseFragment {
     @Override
     protected void refreshData() {
 
+        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(getContext());
+        boolean bOriginal = sp.getBoolean("original",false);
+        int type = 0;
+        if (bOriginal){
+            type = 1;
+        }
         setRefreshing(true);
-        MainActivity.getWeiboAPI().friendsTimeline(1, Constants.PAGE_COUNT, new RequestListener() {
+        MainActivity.getWeiboAPI().friendsTimeline(1, Constants.PAGE_COUNT, type, new RequestListener() {
             @Override
             public void onComplete(String s) {
                 setRefreshing(false);

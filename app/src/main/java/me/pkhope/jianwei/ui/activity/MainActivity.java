@@ -107,10 +107,16 @@ public class MainActivity extends AppCompatActivity implements Identifier,Bottom
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch(item.getItemId()) {
-            case R.id.action_add:
-                Intent intent = new Intent(MainActivity.this,SendWeiboActivity.class);
+            case R.id.action_add: {
+                Intent intent = new Intent(MainActivity.this, SendWeiboActivity.class);
                 startActivity(intent);
                 break;
+            }
+            case R.id.action_setting: {
+                Intent intent = new Intent(MainActivity.this, SettingActivity.class);
+                startActivity(intent);
+                break;
+            }
         }
         return super.onOptionsItemSelected(item);
     }

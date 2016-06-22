@@ -5,4 +5,8 @@
         android:title="add"
         android:icon="@mipmap/ic_add_white_48dp"
         app:showAsAction="ifRoom" />
+
+    <item android:id="@+id/action_setting"
+        android:title="设置"
+        app:showAsAction="never" />
 </menu>

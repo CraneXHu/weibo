@@ -38,8 +38,8 @@ public class WeiboAPI {
         return token;
     }
 
-    public void friendsTimeline(int page, int count, RequestListener listener){
-        statusesAPI.friendsTimeline(0, 0, count, page, false, 0, false,listener);
+    public void friendsTimeline(int page, int count, int type ,RequestListener listener){
+        statusesAPI.friendsTimeline(0, 0, count, page, false, type, false,listener);
     }
 
     public void userTimeline(int page, int count, RequestListener listener){

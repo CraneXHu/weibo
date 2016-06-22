@@ -41,7 +41,7 @@ public class WelecomeActivity extends AppCompatActivity {
         protected Void doInBackground(Void... params) {
             try{
 
-                Thread.sleep(3000);
+                Thread.sleep(500);
 
             }catch (InterruptedException e){
                 e.printStackTrace();
