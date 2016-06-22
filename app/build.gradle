@@ -19,17 +19,17 @@ android {
     }
 }
 
-dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
-    testCompile 'junit:junit:4.12'
-    compile 'com.android.support:appcompat-v7:23.2.1'
-    compile 'com.android.support:design:23.2.1'
-    compile project(':WeiboSdk')
-    compile 'com.ashokvarma.android:bottom-navigation-bar:1.2.2'
-    compile 'com.github.bumptech.glide:glide:3.6.1'
-    compile 'com.squareup.picasso:picasso:2.5.1'
-    compile 'de.hdodenhof:circleimageview:2.0.0'
-    compile 'com.nineoldandroids:library:2.4.0'
-    compile 'me.iwf.photopicker:PhotoPicker:0.8.1@aar'
-    compile 'com.github.chrisbanes:PhotoView:1.2.6'
-}
+ dependencies {
+     compile fileTree(include: ['*.jar'], dir: 'libs')
+     testCompile 'junit:junit:4.12'
+     compile 'com.android.support:appcompat-v7:23.2.1'
+     compile 'com.android.support:design:23.2.1'
+     compile project(':WeiboSdk')
+     compile 'com.ashokvarma.android:bottom-navigation-bar:1.2.2'
+     compile 'com.github.bumptech.glide:glide:3.6.1'
+     compile 'com.squareup.picasso:picasso:2.5.1'
+     compile 'de.hdodenhof:circleimageview:2.0.0'
+     compile 'com.nineoldandroids:library:2.4.0'
+     compile 'me.iwf.photopicker:PhotoPicker:0.8.1@aar'
+     compile 'com.github.chrisbanes:PhotoView:1.2.6'
+ }

@@ -12,6 +12,7 @@ import android.view.View;
 
 import com.ashokvarma.bottomnavigation.BottomNavigationBar;
 import com.ashokvarma.bottomnavigation.BottomNavigationItem;
+import com.avos.avoscloud.AVAnalytics;
 import com.sina.weibo.sdk.auth.Oauth2AccessToken;
 import com.sina.weibo.sdk.auth.sso.SsoHandler;
 import com.sina.weibo.sdk.exception.WeiboException;
@@ -70,6 +71,8 @@ public class MainActivity extends AppCompatActivity implements Identifier,Bottom
         initBottomBar();
 
         auth();
+
+        AVAnalytics.trackAppOpened(getIntent());
 
         weiboAPI.show(weiboAPI.getUid(), new RequestListener() {
             @Override

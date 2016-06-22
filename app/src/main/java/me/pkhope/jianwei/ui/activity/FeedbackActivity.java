@@ -5,6 +5,10 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.EditText;
+import android.widget.ImageView;
+
+import com.avos.avoscloud.AVObject;
 
 import me.pkhope.jianwei.R;
 
@@ -14,6 +18,7 @@ import me.pkhope.jianwei.R;
 public class FeedbackActivity extends AppCompatActivity {
 
     private Toolbar toolbar;
+    private EditText feedbackEt;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -29,6 +34,18 @@ public class FeedbackActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 onBackPressed();
+            }
+        });
+
+        feedbackEt = (EditText) findViewById(R.id.feedback_et);
+        ImageView send = (ImageView) findViewById(R.id.send);
+        send.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AVObject feedBack = new AVObject("feedback");
+                feedBack.put("content",feedbackEt.getText());
+                feedBack.saveInBackground();
+                finish();
             }
         });
     }
