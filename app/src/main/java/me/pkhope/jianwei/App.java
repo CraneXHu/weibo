@@ -3,7 +3,6 @@ package me.pkhope.jianwei;
 import android.app.Application;
 
 import com.avos.avoscloud.AVOSCloud;
-import com.avos.avoscloud.AVObject;
 
 /**
  * Created by pkhope on 2016/6/12.
