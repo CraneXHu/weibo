@@ -7,6 +7,8 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -21,6 +23,7 @@ import java.util.ArrayList;
 
 import me.iwf.photopicker.PhotoPickerActivity;
 import me.iwf.photopicker.utils.PhotoPickerIntent;
+import me.pkhope.jianwei.PostService;
 import me.pkhope.jianwei.R;
 
 /**
@@ -32,6 +35,7 @@ public class SendWeiboActivity extends AppCompatActivity{
 
     private Toolbar toolbar;
     private ImageView placeHolder;
+    private EditText contentEt;
 
     private ArrayList<String> photos = null;
     private Bitmap bitmap = null;
@@ -64,31 +68,7 @@ public class SendWeiboActivity extends AppCompatActivity{
             }
         });
 
-        final EditText et = (EditText) findViewById(R.id.content);
-
-        ImageView ibSend = (ImageView) findViewById(R.id.send);
-        ibSend.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (bitmap == null){
-                    return;
-                }
-
-                MainActivity.getWeiboAPI().upload(et.getText().toString(), bitmap, new RequestListener() {
-                    @Override
-                    public void onComplete(String s) {
-
-                        finish();
-                    }
-
-                    @Override
-                    public void onWeiboException(WeiboException e) {
-
-                    }
-                });
-            }
-        });
-
+        contentEt = (EditText) findViewById(R.id.content);
 
     }
 
@@ -97,7 +77,7 @@ public class SendWeiboActivity extends AppCompatActivity{
 
         if (resultCode == RESULT_OK && requestCode == REQUEST_CODE) {
             if (data != null) {
-                ArrayList<String> photos =
+                photos =
                         data.getStringArrayListExtra(PhotoPickerActivity.KEY_SELECTED_PHOTOS);
 
                 try {
@@ -111,5 +91,29 @@ public class SendWeiboActivity extends AppCompatActivity{
                 placeHolder.setImageBitmap(bitmap);
             }
         }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_send, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        switch(item.getItemId()) {
+            case R.id.action_send: {
+
+                Intent intent = new Intent(SendWeiboActivity.this, PostService.class);
+                intent.putExtra("operation","send");
+                intent.putExtra("content",contentEt.getText().toString());
+                intent.putStringArrayListExtra("photos",photos);
+
+                finish();
+                break;
+            }
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

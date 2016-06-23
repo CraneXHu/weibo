@@ -13,6 +13,7 @@ import android.view.View;
 import com.ashokvarma.bottomnavigation.BottomNavigationBar;
 import com.ashokvarma.bottomnavigation.BottomNavigationItem;
 import com.avos.avoscloud.AVAnalytics;
+import com.sina.weibo.sdk.auth.AuthInfo;
 import com.sina.weibo.sdk.auth.Oauth2AccessToken;
 import com.sina.weibo.sdk.auth.sso.SsoHandler;
 import com.sina.weibo.sdk.exception.WeiboException;
@@ -22,6 +23,7 @@ import com.sina.weibo.sdk.openapi.models.User;
 import java.util.ArrayList;
 import java.util.List;
 
+import me.pkhope.jianwei.interfaces.AuthListener;
 import me.pkhope.jianwei.utils.AccessTokenPreference;
 import me.pkhope.jianwei.Constants;
 import me.pkhope.jianwei.interfaces.Identifier;
@@ -96,9 +98,9 @@ public class MainActivity extends AppCompatActivity implements Identifier,Bottom
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-//        if(ssoHandler != null){
-//            ssoHandler.authorizeCallBack(requestCode, resultCode, data);
-//        }
+        if(ssoHandler != null){
+            ssoHandler.authorizeCallBack(requestCode, resultCode, data);
+        }
     }
 
     @Override
@@ -172,13 +174,13 @@ public class MainActivity extends AppCompatActivity implements Identifier,Bottom
     protected void auth(){
 
         token = AccessTokenPreference.loadAccessToken(MainActivity.this);
-//        if (token.getToken().equals("")){
-//
-//            AuthInfo authInfo = new AuthInfo(this, Constants.APP_KEY, Constants.REDIRECT_URL, Constants.SCOPE);
-//            ssoHandler = new SsoHandler(MainActivity.this, authInfo);
-//            ssoHandler.authorize(new AuthListener(MainActivity.this));
-//
-//        }
+        if (token.getToken().equals("")){
+
+            AuthInfo authInfo = new AuthInfo(this, Constants.APP_KEY, Constants.REDIRECT_URL, Constants.SCOPE);
+            ssoHandler = new SsoHandler(MainActivity.this, authInfo);
+            ssoHandler.authorize(new AuthListener(MainActivity.this));
+
+        }
 
         weiboAPI = new WeiboAPI(getBaseContext(),Constants.APP_KEY,token);
     }

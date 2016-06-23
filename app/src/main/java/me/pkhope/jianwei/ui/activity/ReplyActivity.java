@@ -5,6 +5,8 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -13,14 +15,19 @@ import android.widget.ImageView;
 import com.sina.weibo.sdk.exception.WeiboException;
 import com.sina.weibo.sdk.net.RequestListener;
 
+import me.pkhope.jianwei.PostService;
 import me.pkhope.jianwei.R;
 
 /**
  * Created by pkhope on 2016/6/16.
  */
-public class ReplyActivity extends AppCompatActivity implements RequestListener {
+public class ReplyActivity extends AppCompatActivity {
 
     private Toolbar toolbar;
+    private EditText contentEt;
+
+    private String operation;
+    private long id;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -39,35 +46,34 @@ public class ReplyActivity extends AppCompatActivity implements RequestListener 
             }
         });
 
-        final EditText et = (EditText) findViewById(R.id.content);
+        contentEt = (EditText) findViewById(R.id.content);
 
         Intent intent = getIntent();
-        final String operation = intent.getStringExtra("operation");
-        final String id = intent.getStringExtra("id");
+        operation = intent.getStringExtra("operation");
+        id = intent.getLongExtra("id",0);
+    }
 
-        ImageView ibSend = (ImageView) findViewById(R.id.send);
-        ibSend.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_send, menu);
+        return true;
+    }
 
-                if (operation.equals("repost")){
-                    MainActivity.getWeiboAPI().repost(Long.parseLong(id),et.getText().toString(),0,ReplyActivity.this);
-                } else if (operation.equals("comment")){
-                    MainActivity.getWeiboAPI().create(et.getText().toString(),Long.parseLong(id),false,ReplyActivity.this);
-                }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
 
+        switch(item.getItemId()) {
+            case R.id.action_send: {
+                Intent intent = new Intent(ReplyActivity.this, PostService.class);
+                intent.putExtra("operation",operation);
+                intent.putExtra("content",contentEt.getText().toString());
+                intent.putExtra("id",id);
+                startService(intent);
+                finish();
+                break;
             }
-        });
-
+        }
+        return super.onOptionsItemSelected(item);
     }
 
-    @Override
-    public void onComplete(String s) {
-        finish();
-    }
-
-    @Override
-    public void onWeiboException(WeiboException e) {
-        e.printStackTrace();
-    }
 }

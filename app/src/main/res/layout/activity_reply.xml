@@ -14,22 +14,5 @@
         android:layout_below="@id/toolbar_layout"
         android:background="@null" />
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="48dp"
-        android:layout_alignParentBottom="true"
-        android:background="#FDFDFE">
-
-        <ImageView
-            android:id="@+id/send"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="24dp"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:src="@mipmap/ic_send"
-            android:background="@drawable/item_bg"/>
-
-    </RelativeLayout>
 
 </RelativeLayout>

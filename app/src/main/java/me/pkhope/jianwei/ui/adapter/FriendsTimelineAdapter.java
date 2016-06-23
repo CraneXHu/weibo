@@ -178,7 +178,7 @@ public class FriendsTimelineAdapter extends RecyclerView.Adapter<RecyclerView.Vi
             } else if (item.getTitle().equals("评论")){
                 intent.putExtra("operation","comment");
             }
-            intent.putExtra("id",status.id);
+            intent.putExtra("id",Long.parseLong(status.id));
             rootView.getContext().startActivity(intent);
             return true;
         }

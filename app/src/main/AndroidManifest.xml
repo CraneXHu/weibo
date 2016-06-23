@@ -15,10 +15,6 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".ui.activity.MainActivity">
-
-        </activity>
-
-        <activity android:name=".ui.activity.WelecomeActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -26,12 +22,7 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".ui.activity.LoginActivity">
-
-        </activity>
-
-        <activity android:name=".ui.activity.ReplyActivity"
-            android:windowSoftInputMode="adjustResize">
+        <activity android:name=".ui.activity.ReplyActivity">
 
         </activity>
 
@@ -68,6 +59,10 @@
         <activity android:name=".ui.activity.AboutActivity">
 
         </activity>
+
+        <service android:name=".PostService">
+
+        </service>
 
         <activity android:name="me.iwf.photopicker.PhotoPickerActivity"
             android:theme="@style/myTheme"/>
