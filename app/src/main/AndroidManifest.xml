@@ -69,9 +69,11 @@
 
         </activity>
 
-        <activity android:name="me.iwf.photopicker.PhotoPickerActivity" />
+        <activity android:name="me.iwf.photopicker.PhotoPickerActivity"
+            android:theme="@style/myTheme"/>
 
-        <activity android:name="me.iwf.photopicker.PhotoPagerActivity" />
+        <activity android:name="me.iwf.photopicker.PhotoPagerActivity"
+            android:theme="@style/myTheme"/>
 
         <activity android:name="com.sina.weibo.sdk.component.WeiboSdkBrowser">
 

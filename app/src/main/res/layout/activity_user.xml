@@ -15,6 +15,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="?attr/colorPrimary"
+            android:elevation="3dp"
             android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
             app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
             app:layout_scrollFlags="scroll|enterAlways"/>
@@ -38,7 +39,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="16dp"
-                android:hint="pkhope404"
                 android:layout_toRightOf="@id/avatar"
                 android:textStyle="bold"
                 android:textColor="@color/black"
@@ -60,7 +60,6 @@
                 android:layout_marginTop="8dp"
                 android:textColor="@color/content_text_color"
                 android:textSize="16sp"
-                android:hint="程序猿"
                 android:layout_toRightOf="@id/avatar"
                 android:layout_below="@id/nickname"/>
         </RelativeLayout>
@@ -75,6 +74,11 @@
             app:tabTextColor="@color/content_text_color">
 
         </android.support.design.widget.TabLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#ffeeeeee"/>
     </android.support.design.widget.AppBarLayout>
 
 

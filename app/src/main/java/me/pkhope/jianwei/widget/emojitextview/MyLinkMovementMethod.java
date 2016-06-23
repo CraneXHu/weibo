@@ -71,7 +71,7 @@ public class MyLinkMovementMethod extends LinkMovementMethod {
                             buffer.getSpanStart(link[0]),
                             buffer.getSpanEnd(link[0]));
                 } else if (action == MotionEvent.ACTION_MOVE){
-                    
+
                     buffer.setSpan(new BackgroundColorSpan(Color.TRANSPARENT),
                             buffer.getSpanStart(link[0]), buffer.getSpanEnd(link[0]),
                             Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);

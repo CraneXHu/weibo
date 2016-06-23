@@ -24,7 +24,8 @@
             android:id="@+id/bottom_nav_bar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true">
+            android:layout_alignParentBottom="true"
+            app:bnbElevation="3dp">
 
         </com.ashokvarma.bottomnavigation.BottomNavigationBar>
 
