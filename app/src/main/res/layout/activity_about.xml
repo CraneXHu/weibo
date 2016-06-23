@@ -39,7 +39,7 @@
             android:layout_marginLeft="16dp"
             android:layout_gravity="center_vertical"
             android:textSize="16sp"
-            android:text="开发人员: pkhope"/>
+            android:text="开发人员:  pkhope"/>
 
     </LinearLayout>
 
@@ -59,7 +59,7 @@
             android:layout_marginLeft="16dp"
             android:layout_gravity="center_vertical"
             android:textSize="16sp"
-            android:text="Github: https://www.github.com/pkhope"/>
+            android:text="Github:      https://www.github.com/pkhope"/>
     </LinearLayout>
 
     <View
@@ -78,7 +78,7 @@
             android:layout_marginLeft="16dp"
             android:layout_gravity="center_vertical"
             android:textSize="16sp"
-            android:text="Email: hhxnbw@gmail.com"/>
+            android:text="Email:       hhxnbw@gmail.com"/>
     </LinearLayout>
 
 </LinearLayout>
