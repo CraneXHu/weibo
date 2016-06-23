@@ -32,7 +32,8 @@ public class MyLinkMovementMethod extends LinkMovementMethod {
         int action = event.getAction();
 
         if (action == MotionEvent.ACTION_UP ||
-                action == MotionEvent.ACTION_DOWN) {
+                action == MotionEvent.ACTION_DOWN ||
+                action == MotionEvent.ACTION_MOVE) {
             int x = (int) event.getX();
             int y = (int) event.getY();
 
@@ -69,6 +70,13 @@ public class MyLinkMovementMethod extends LinkMovementMethod {
                     Selection.setSelection(buffer,
                             buffer.getSpanStart(link[0]),
                             buffer.getSpanEnd(link[0]));
+                } else if (action == MotionEvent.ACTION_MOVE){
+                    
+                    buffer.setSpan(new BackgroundColorSpan(Color.TRANSPARENT),
+                            buffer.getSpanStart(link[0]), buffer.getSpanEnd(link[0]),
+                            Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+
+                    Selection.removeSelection(buffer);
                 }
 
                 return true;
