@@ -16,6 +16,7 @@ import com.sina.weibo.sdk.openapi.models.StatusList;
 import java.util.ArrayList;
 import java.util.List;
 
+import me.pkhope.jianwei.App;
 import me.pkhope.jianwei.Constants;
 import me.pkhope.jianwei.ui.activity.MainActivity;
 import me.pkhope.jianwei.ui.adapter.FriendsTimelineAdapter;
@@ -48,7 +49,7 @@ public class FriendsTimelineFragment extends BaseFragment {
         }
 
         setRefreshing(true);
-        MainActivity.getWeiboAPI().friendsTimeline(currentPage++, Constants.PAGE_COUNT, type, new RequestListener() {
+        App.getWeiboAPI().friendsTimeline(currentPage++, Constants.PAGE_COUNT, type, new RequestListener() {
             @Override
             public void onComplete(String s) {
                 setRefreshing(false);
@@ -78,7 +79,7 @@ public class FriendsTimelineFragment extends BaseFragment {
             type = 1;
         }
         setRefreshing(true);
-        MainActivity.getWeiboAPI().friendsTimeline(1, Constants.PAGE_COUNT, type, new RequestListener() {
+        App.getWeiboAPI().friendsTimeline(1, Constants.PAGE_COUNT, type, new RequestListener() {
             @Override
             public void onComplete(String s) {
                 setRefreshing(false);

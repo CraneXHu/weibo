@@ -20,6 +20,7 @@ import com.sina.weibo.sdk.openapi.models.User;
 import java.util.ArrayList;
 import java.util.List;
 
+import me.pkhope.jianwei.App;
 import me.pkhope.jianwei.R;
 import me.pkhope.jianwei.interfaces.Identifier;
 import me.pkhope.jianwei.ui.adapter.MyFragmentPagerAdapter;
@@ -75,7 +76,7 @@ public class UserActivity extends AppCompatActivity implements Identifier{
         }
 
 
-        MainActivity.getWeiboAPI().show(name, new RequestListener() {
+        App.getWeiboAPI().show(name, new RequestListener() {
             @Override
             public void onComplete(String s) {
                 User user = User.parse(s);

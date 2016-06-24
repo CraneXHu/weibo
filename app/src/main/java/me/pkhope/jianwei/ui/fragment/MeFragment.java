@@ -19,6 +19,7 @@ import com.sina.weibo.sdk.openapi.models.User;
 import java.util.ArrayList;
 import java.util.List;
 
+import me.pkhope.jianwei.App;
 import me.pkhope.jianwei.R;
 import me.pkhope.jianwei.ui.activity.MainActivity;
 import me.pkhope.jianwei.ui.adapter.MyFragmentPagerAdapter;
@@ -67,7 +68,7 @@ public class MeFragment extends Fragment {
         gender = (ImageView) getView().findViewById(R.id.gender);
         intro = (TextView) getView().findViewById(R.id.intro);
 
-        MainActivity.getWeiboAPI().show(MainActivity.getWeiboAPI().getUid(), new RequestListener() {
+        App.getWeiboAPI().show(App.getWeiboAPI().getUid(), new RequestListener() {
             @Override
             public void onComplete(String s) {
 

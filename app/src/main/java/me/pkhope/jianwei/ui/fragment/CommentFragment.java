@@ -14,6 +14,7 @@ import com.sina.weibo.sdk.openapi.models.CommentList;
 import java.util.ArrayList;
 import java.util.List;
 
+import me.pkhope.jianwei.App;
 import me.pkhope.jianwei.Constants;
 import me.pkhope.jianwei.interfaces.Identifier;
 import me.pkhope.jianwei.ui.activity.MainActivity;
@@ -41,7 +42,7 @@ public class CommentFragment extends BaseFragment{
 
         setRefreshing(true);
 
-        MainActivity.getWeiboAPI().show(Long.parseLong(((Identifier)getActivity()).getIdentifier()),currentPage++, Constants.PAGE_COUNT, new RequestListener() {
+        App.getWeiboAPI().show(Long.parseLong(((Identifier)getActivity()).getIdentifier()),currentPage++, Constants.PAGE_COUNT, new RequestListener() {
             @Override
             public void onComplete(String s) {
 
@@ -67,7 +68,7 @@ public class CommentFragment extends BaseFragment{
     @Override
     protected void refreshData() {
 
-        MainActivity.getWeiboAPI().show(Long.parseLong(((Identifier)getActivity()).getIdentifier()),1, Constants.PAGE_COUNT, new RequestListener() {
+        App.getWeiboAPI().show(Long.parseLong(((Identifier)getActivity()).getIdentifier()),1, Constants.PAGE_COUNT, new RequestListener() {
             @Override
             public void onComplete(String s) {
                 setRefreshing(false);

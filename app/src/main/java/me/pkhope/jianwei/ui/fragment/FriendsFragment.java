@@ -16,6 +16,7 @@ import com.sina.weibo.sdk.openapi.models.User;
 import java.util.ArrayList;
 import java.util.List;
 
+import me.pkhope.jianwei.App;
 import me.pkhope.jianwei.Constants;
 import me.pkhope.jianwei.interfaces.Identifier;
 import me.pkhope.jianwei.models.UserList;
@@ -47,7 +48,7 @@ public class FriendsFragment extends BaseFragment {
     protected void loadMore() {
 //        super.loadPage(page);
         setRefreshing(true);
-        MainActivity.getWeiboAPI().friends(((Identifier)getActivity()).getIdentifier(), currentCursor, Constants.PAGE_COUNT, new RequestListener() {
+        App.getWeiboAPI().friends(((Identifier)getActivity()).getIdentifier(), currentCursor, Constants.PAGE_COUNT, new RequestListener() {
             @Override
             public void onComplete(String s) {
                 setRefreshing(false);
@@ -71,7 +72,7 @@ public class FriendsFragment extends BaseFragment {
     @Override
     protected void refreshData() {
 
-        MainActivity.getWeiboAPI().friends(((Identifier)getActivity()).getIdentifier(), 0, Constants.PAGE_COUNT, new RequestListener() {
+        App.getWeiboAPI().friends(((Identifier)getActivity()).getIdentifier(), 0, Constants.PAGE_COUNT, new RequestListener() {
             @Override
             public void onComplete(String s) {
                 setRefreshing(false);

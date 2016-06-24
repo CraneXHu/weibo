@@ -16,6 +16,7 @@ import com.sina.weibo.sdk.openapi.models.StatusList;
 import java.util.ArrayList;
 import java.util.List;
 
+import me.pkhope.jianwei.App;
 import me.pkhope.jianwei.ui.activity.MainActivity;
 import me.pkhope.jianwei.ui.adapter.CommentAdapter;
 import me.pkhope.jianwei.Constants;
@@ -43,7 +44,7 @@ public class MentionsFragment extends BaseFragment {
     protected void loadMore() {
 
         setRefreshing(true);
-        MainActivity.getWeiboAPI().mentions(currentPage++, Constants.PAGE_COUNT, new RequestListener() {
+        App.getWeiboAPI().mentions(currentPage++, Constants.PAGE_COUNT, new RequestListener() {
             @Override
             public void onComplete(String s) {
                 setRefreshing(false);
@@ -67,7 +68,7 @@ public class MentionsFragment extends BaseFragment {
     protected void refreshData() {
 
         setRefreshing(true);
-        MainActivity.getWeiboAPI().mentions(1, Constants.PAGE_COUNT, new RequestListener() {
+        App.getWeiboAPI().mentions(1, Constants.PAGE_COUNT, new RequestListener() {
             @Override
             public void onComplete(String s) {
 

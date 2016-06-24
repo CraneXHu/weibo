@@ -21,6 +21,7 @@ import com.sina.weibo.sdk.openapi.models.User;
 import java.util.ArrayList;
 import java.util.List;
 
+import me.pkhope.jianwei.App;
 import me.pkhope.jianwei.R;
 import me.pkhope.jianwei.interfaces.Identifier;
 import me.pkhope.jianwei.ui.adapter.MyFragmentPagerAdapter;
@@ -71,7 +72,7 @@ public class WeiboDetailActivity extends AppCompatActivity implements Identifier
         Intent intent = getIntent();
         id = intent.getStringExtra("id");
 
-        MainActivity.getWeiboAPI().showWeiboDetail(Long.parseLong(id), new RequestListener() {
+        App.getWeiboAPI().showWeiboDetail(Long.parseLong(id), new RequestListener() {
             @Override
             public void onComplete(String s) {
                 Status status = Status.parse(s);

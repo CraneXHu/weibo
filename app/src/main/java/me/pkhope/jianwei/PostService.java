@@ -65,20 +65,20 @@ public class PostService extends Service implements RequestListener {
 
     protected void sendText(String content){
 
-        MainActivity.getWeiboAPI().update(content, this);
+        App.getWeiboAPI().update(content, this);
     }
 
     protected void sendTextWithImage(String content,String name){
 
-        MainActivity.getWeiboAPI().upload(content, getBitmap(name), this);
+        App.getWeiboAPI().upload(content, getBitmap(name), this);
     }
 
     protected void repost(Long id,String content){
-        MainActivity.getWeiboAPI().repost(id,content,0,this);
+        App.getWeiboAPI().repost(id,content,0,this);
     }
 
     protected void comment(Long id,String content){
-        MainActivity.getWeiboAPI().create(content,id,false,this);
+        App.getWeiboAPI().create(content,id,false,this);
     }
 
     protected void showSuccessNotifiy(){
