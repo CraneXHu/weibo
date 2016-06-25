@@ -37,7 +37,9 @@ public class MeFragment extends Fragment {
     private TextView nickname;
     private TextView intro;
 
-    MyFragmentPagerAdapter adapter;
+    private MyFragmentPagerAdapter adapter;
+    private TabLayout tab;
+    private ViewPager viewPager;
 
     @Nullable
     @Override
@@ -53,14 +55,14 @@ public class MeFragment extends Fragment {
         fragmentList.clear();
         titleList.clear();
 
-        final ViewPager viewPager = (ViewPager)getView().findViewById(R.id.view_pager);
+        viewPager = (ViewPager)getView().findViewById(R.id.view_pager);
         fragmentList.add(new UserTimelineFragment());
         fragmentList.add(new FollowersFragment());
         fragmentList.add(new FriendsFragment());
         adapter = new MyFragmentPagerAdapter(getChildFragmentManager(),fragmentList);
         viewPager.setAdapter(adapter);
 
-        final TabLayout tab = (TabLayout) getView().findViewById(R.id.tab);
+        tab = (TabLayout) getView().findViewById(R.id.tab);
         tab.setTabMode(TabLayout.MODE_FIXED);
 
         avatar = (ImageView) getView().findViewById(R.id.avatar);
@@ -99,5 +101,11 @@ public class MeFragment extends Fragment {
                 e.printStackTrace();
             }
         });
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
     }
 }

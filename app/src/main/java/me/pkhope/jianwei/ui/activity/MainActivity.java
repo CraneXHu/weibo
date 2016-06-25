@@ -24,7 +24,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import me.pkhope.jianwei.App;
-import me.pkhope.jianwei.interfaces.AuthListener;
 import me.pkhope.jianwei.utils.AccessTokenPreference;
 import me.pkhope.jianwei.Constants;
 import me.pkhope.jianwei.interfaces.Identifier;
