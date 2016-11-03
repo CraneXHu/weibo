@@ -74,6 +74,9 @@ public class SettingActivity extends AppCompatActivity implements View.OnClickLi
             }
             case R.id.ll_exit: {
                 AccessTokenPreference.clear(this);
+                Intent intent = new Intent(SettingActivity.this, LoginActivity.class);
+                startActivity(intent);
+                finish();
                 break;
             }
         }

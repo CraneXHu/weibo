@@ -60,21 +60,21 @@ public class MainActivity extends AppCompatActivity implements Identifier,Bottom
         toolbar = (Toolbar)findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         toolbar.setTitle(getString(R.string.app_name));
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onBackPressed();
-            }
-        });
+//        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+//        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                onBackPressed();
+//            }
+//        });
 
         initViewPager();
 
         initBottomBar();
 
-//        auth();
+        initApi();
 
-        AVAnalytics.trackAppOpened(getIntent());
+//        AVAnalytics.trackAppOpened(getIntent());
 
         App.getWeiboAPI().show(App.getWeiboAPI().getUid(), new RequestListener() {
 
@@ -172,19 +172,14 @@ public class MainActivity extends AppCompatActivity implements Identifier,Bottom
         bottomNavigationBar.setTabSelectedListener(this);
     }
 
-//    protected void auth(){
-//
-//        token = AccessTokenPreference.loadAccessToken(MainActivity.this);
-//        if (token.getToken().equals("")){
-//
-//            AuthInfo authInfo = new AuthInfo(this, Constants.APP_KEY, Constants.REDIRECT_URL, Constants.SCOPE);
-//            ssoHandler = new SsoHandler(MainActivity.this, authInfo);
-//            ssoHandler.authorize(new AuthListener(MainActivity.this));
-//
-//        }
-//
-////        weiboAPI = new WeiboAPI(getBaseContext(),Constants.APP_KEY,token);
-//    }
+    protected void initApi(){
+
+        Oauth2AccessToken token = AccessTokenPreference.loadAccessToken(MainActivity.this);
+
+        WeiboAPI weiboAPI = new WeiboAPI(getApplicationContext(),Constants.APP_KEY,token);
+
+        App.setWeiboAPI(weiboAPI);
+    }
 
     @Override
     public void onTabSelected(int position) {

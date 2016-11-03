@@ -33,6 +33,4 @@ public class WeiBoContentClickableSpan extends ClickableSpan {
         ds.setColor(0xff507daf);
         ds.setUnderlineText(false);
     }
-
-
 }
