@@ -5,6 +5,9 @@
 ##说明
 目前新浪微博已不接受第三方客户端审核，练习或自己用的话可以使用weico的appkey。使用方法可以参考weico分支。
 
+##下载地址
+http://fir.im/ba78
+
 ##截图
 ![image](https://github.com/pkhope/Jianwei/blob/master/screenshot/pic1.jpg)
 ![image](https://github.com/pkhope/Jianwei/blob/master/screenshot/pic2.jpg)
